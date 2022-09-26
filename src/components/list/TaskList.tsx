@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import TaskItem from './TaskItem';
 import Table from '@mui/material/Table';
 import TableHead from '@mui/material/TableHead';
@@ -9,8 +9,6 @@ import TableContainer from '@mui/material/TableContainer';
 import Paper from '@mui/material/Paper';
 
 const TaskList = (props: any) => {
-  const [list, setList] = useState(props.list);
-
   return (
     <div 
       className="TaskList" 
@@ -29,8 +27,8 @@ const TaskList = (props: any) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {list.map((item: any) => (
-              <TaskItem task={item} key={item.id} />
+            {props.list.map((item: any) => (
+              <TaskItem task={item} key={item.id} onClickEdit={props.onEditTask} onClickRemove={props.onRemoveTask} />
             ))}
           </TableBody>
         </Table>

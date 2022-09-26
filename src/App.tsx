@@ -9,7 +9,7 @@ const date: Date = new Date();
 const App = () => {
   return (
     <div className="App">
-      <Title text="Todo App" day={dayjs(date)} />
+      <Title text="Todo App" day={dayjs(date).format('DD/MM/YYYY')} />
       <ToDoList />
     </div>
   );

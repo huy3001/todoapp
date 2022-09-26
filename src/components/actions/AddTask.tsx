@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import formatDate from '../FormatDate';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -12,13 +13,11 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
-const date: Date = new Date();
-
 const AddTask = (props: any) => {
   const [task, setTask] = useState({
       name: '',
       description: '',
-      deadline: dayjs(date),
+      deadline: formatDate(dayjs()),
       tag: ''
   });
 
@@ -49,7 +48,7 @@ const AddTask = (props: any) => {
   const handleChangeDeadline = (day: any) => {
     setTask(task => ({
       ...task,
-      deadline: day
+      deadline: formatDate(day)
     }));
   };
 
@@ -60,15 +59,20 @@ const AddTask = (props: any) => {
     }));
   };
 
-  const handleSaveTask = () => {
+  const handleResetTask = () => {
     setTask(task => ({
       ...task,
       name: '',
       description: '',
-      deadline: dayjs(date),
+      deadline: formatDate(dayjs()),
       tag: ''
     }));
     handleCloseDialog();
+  }
+
+  const handleSaveTask = () => {
+    props.onAddTask(task.name, task.description, task.deadline, task.tag);
+    handleResetTask();
   }
 
   return (
@@ -109,13 +113,13 @@ const AddTask = (props: any) => {
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DesktopDatePicker
                 label="Deadline"
-                inputFormat="MM/DD/YYYY"
-                value={dayjs(date)}
+                inputFormat="DD/MM/YYYY"
+                value={task.deadline}
                 onChange={handleChangeDeadline}
                 renderInput={(params) => 
                   <TextField 
                     size="small" 
-                    margin="dense" 
+                    margin="dense"
                     fullWidth required 
                     {...params} 
                   />
@@ -136,7 +140,7 @@ const AddTask = (props: any) => {
         <DialogActions>
           <Button 
             variant="contained" 
-            onClick={handleCloseDialog}
+            onClick={handleResetTask}
           >
             Cancel
           </Button>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import formatDate from '../FormatDate';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -8,13 +9,17 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
 const EditTask = (props: any) => {
   const [editedTask, setEditedTask] = useState({
-      editedName: '',
-      editedDescription: '',
-      editedDeadline: '',
-      editedTag: ''
+      editedId: props.task.id,
+      editedName: props.task.name,
+      editedDescription: props.task.description,
+      editedDeadline: props.task.deadline,
+      editedTag: props.task.tag
   });
 
   const [open, setOpen] = useState(false);
@@ -41,6 +46,13 @@ const EditTask = (props: any) => {
     }));
   };
 
+  const handleEditDeadline = (day: any) => {
+    setEditedTask(editedTask => ({
+      ...editedTask,
+      editedDeadline: formatDate(day)
+    }));
+  };
+
   const handleEditTag = (e: any) => {
     setEditedTask(editedTask => ({
       ...editedTask,
@@ -49,6 +61,7 @@ const EditTask = (props: any) => {
   };
 
   const handleSaveEditedTask = () => {
+    props.onEdit(editedTask.editedId, editedTask.editedName, editedTask.editedDescription, editedTask.editedDeadline, editedTask.editedTag);
     handleCloseDialog();
   }
 
@@ -74,6 +87,7 @@ const EditTask = (props: any) => {
               variant="outlined" 
               size="small" 
               margin="dense"
+              value={editedTask.editedName}
               onChange={handleEditName}
               fullWidth required
             />
@@ -83,15 +97,33 @@ const EditTask = (props: any) => {
               variant="outlined" 
               size="small"
               margin="dense"
+              value={editedTask.editedDescription}
               onChange={handleEditDescription} 
               fullWidth required
             />
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DesktopDatePicker
+                label="Deadline"
+                inputFormat="DD/MM/YYYY"
+                value={editedTask.editedDeadline}
+                onChange={handleEditDeadline}
+                renderInput={(params) => 
+                  <TextField 
+                    size="small" 
+                    margin="dense"
+                    fullWidth required 
+                    {...params} 
+                  />
+                }
+              />
+            </LocalizationProvider>
             <TextField 
               id="task-tag" 
               label="Task Tag" 
               variant="outlined" 
               size="small"
               margin="dense"
+              value={editedTask.editedTag}
               onChange={handleEditTag} 
               fullWidth
             />

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import EditTask from '../actions/EditTask';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
@@ -6,20 +6,22 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 const TaskItem = (props: any) => {
-  const [task, setTask] = useState(props.task);
+  const handleTaskRemove = () => {
+    props.onClickRemove(props.task.id);
+  }
 
   return (
     <>
-      <TableRow key={task.id}>
-        <TableCell>{task.id}</TableCell>
-        <TableCell>{task.name}</TableCell>
-        <TableCell>{task.description}</TableCell>
-        <TableCell>{task.deadline}</TableCell>
-        <TableCell>{task.tag}</TableCell>
+      <TableRow>
+        <TableCell>{props.task.id}</TableCell>
+        <TableCell>{props.task.name}</TableCell>
+        <TableCell>{props.task.description}</TableCell>
+        <TableCell>{props.task.deadline}</TableCell>
+        <TableCell>{props.task.tag}</TableCell>
         <TableCell>
           <div style={{ display: 'flex' }}>
-            <EditTask />
-            <IconButton aria-label="delete">
+            <EditTask task={props.task} onEdit={props.onClickEdit} />
+            <IconButton aria-label="delete" onClick={handleTaskRemove}>
               <DeleteIcon />
             </IconButton>
           </div>
