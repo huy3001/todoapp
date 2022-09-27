@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { addTask } from '../../features/actions';
 import formatDate from '../FormatDate';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
@@ -14,11 +16,13 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
 const AddTask = (props: any) => {
+  const dispatch: any = useDispatch();
+  const todosLength: number = useSelector((state: any) => state.todos.length);
+
   const [task, setTask] = useState({
       name: '',
       description: '',
-      deadline: formatDate(dayjs()),
-      tag: ''
+      deadline: formatDate(dayjs())
   });
 
   const [open, setOpen] = useState(false);
@@ -64,14 +68,13 @@ const AddTask = (props: any) => {
       ...task,
       name: '',
       description: '',
-      deadline: formatDate(dayjs()),
-      tag: ''
+      deadline: formatDate(dayjs())
     }));
     handleCloseDialog();
   }
 
   const handleSaveTask = () => {
-    props.onAddTask(task.name, task.description, task.deadline, task.tag);
+    dispatch(addTask(todosLength + 1, task.name, task.description, task.deadline));
     handleResetTask();
   }
 
@@ -126,15 +129,6 @@ const AddTask = (props: any) => {
                 }
               />
             </LocalizationProvider>
-            <TextField 
-              id="task-tag" 
-              label="Task Tag" 
-              variant="outlined" 
-              size="small"
-              margin="dense"
-              onChange={handleChangeTag} 
-              fullWidth
-            />
           </Box>
         </DialogContent>
         <DialogActions>

@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { editTask } from '../../features/actions';
 import formatDate from '../FormatDate';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
@@ -14,12 +16,13 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
 const EditTask = (props: any) => {
+  const dispatch: any = useDispatch();
+
   const [editedTask, setEditedTask] = useState({
       editedId: props.task.id,
       editedName: props.task.name,
       editedDescription: props.task.description,
-      editedDeadline: props.task.deadline,
-      editedTag: props.task.tag
+      editedDeadline: props.task.deadline
   });
 
   const [open, setOpen] = useState(false);
@@ -53,15 +56,8 @@ const EditTask = (props: any) => {
     }));
   };
 
-  const handleEditTag = (e: any) => {
-    setEditedTask(editedTask => ({
-      ...editedTask,
-      editedTag: e.target.value
-    }));
-  };
-
   const handleSaveEditedTask = () => {
-    props.onEdit(editedTask.editedId, editedTask.editedName, editedTask.editedDescription, editedTask.editedDeadline, editedTask.editedTag);
+    dispatch(editTask(editedTask.editedId, editedTask.editedName, editedTask.editedDescription, editedTask.editedDeadline));
     handleCloseDialog();
   }
 
@@ -117,16 +113,6 @@ const EditTask = (props: any) => {
                 }
               />
             </LocalizationProvider>
-            <TextField 
-              id="task-tag" 
-              label="Task Tag" 
-              variant="outlined" 
-              size="small"
-              margin="dense"
-              value={editedTask.editedTag}
-              onChange={handleEditTag} 
-              fullWidth
-            />
           </Box>
         </DialogContent>
         <DialogActions>

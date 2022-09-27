@@ -28,7 +28,7 @@ const TaskList = (props: any) => {
           </TableHead>
           <TableBody>
             {props.list.map((item: any) => (
-              <TaskItem task={item} key={item.id} onClickEdit={props.onEditTask} onClickRemove={props.onRemoveTask} />
+              <TaskItem task={item} key={item.id} />
             ))}
           </TableBody>
         </Table>
