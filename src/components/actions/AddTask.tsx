@@ -56,13 +56,6 @@ const AddTask = (props: any) => {
     }));
   };
 
-  const handleChangeTag = (e: any) => {
-    setTask(task => ({
-      ...task,
-      tag: e.target.value
-    }));
-  };
-
   const handleResetTask = () => {
     setTask(task => ({
       ...task,

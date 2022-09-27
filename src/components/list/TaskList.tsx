@@ -22,7 +22,6 @@ const TaskList = (props: any) => {
               <TableCell>Name</TableCell>
               <TableCell>Description</TableCell>
               <TableCell>Deadline</TableCell>
-              <TableCell>Tag</TableCell>
               <TableCell>Action</TableCell>
             </TableRow>
           </TableHead>

@@ -27,18 +27,26 @@ const defaultSate = [
 const taskList = (state: any = defaultSate, action: any) => {
   switch (action.type) {
     case ADD_TASK: {
-      let {newTask}: any = action.payload;
-      return [...state, newTask];
+      return [...state, {
+        id: action.id,
+        name: action.name,
+        description: action.description,
+        deadline: action.deadline
+      }];
     }
 
     case EDIT_TASK: {
-      let {editedTask}: any = action.payload;
-      let editedIndex = findIndex([...state], (item: any) => item.id === action.payload.id);
-      return [...state].splice(editedIndex, 1, editedTask);
+      let editedIndex = findIndex([...state], (item: any) => item.id === action.id);
+      return [...state].splice(editedIndex, 1, {
+        id: action.id,
+        name: action.name,
+        description: action.description,
+        deadline: action.deadline
+      });
     }
 
     case REMOVE_TASK: {
-      return [...state].filter((item: any) => item.id !== action.payload.id);
+      return [...state].filter((item: any) => item.id !== action.id);
     }
 
     default: {
