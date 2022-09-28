@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { removeTask } from '../../features/actions';
+import { removeTask } from '../../../features/todo/actions';
 import EditTask from '../actions/EditTask';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';

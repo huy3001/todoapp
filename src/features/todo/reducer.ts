@@ -1,5 +1,5 @@
-import { ADD_TASK, EDIT_TASK, REMOVE_TASK } from './actionTypes';
-import formatDate from '../components/FormatDate';
+import { actionTypes } from './constant';
+import formatDate from '../../components/FormatDate';
 import { findIndex } from 'lodash';
 import dayjs from 'dayjs';
 
@@ -26,7 +26,7 @@ const defaultSate = [
 
 const taskList = (state: any = defaultSate, action: any) => {
   switch (action.type) {
-    case ADD_TASK: {
+    case actionTypes.ADD_TASK: {
       return [...state, {
         id: action.id,
         name: action.name,
@@ -35,17 +35,19 @@ const taskList = (state: any = defaultSate, action: any) => {
       }];
     }
 
-    case EDIT_TASK: {
+    case actionTypes.EDIT_TASK: {
       let editedIndex = findIndex([...state], (item: any) => item.id === action.id);
-      return [...state].splice(editedIndex, 1, {
+      let editedState = [...state];
+      editedState.splice(editedIndex, 1, {
         id: action.id,
         name: action.name,
         description: action.description,
         deadline: action.deadline
       });
+      return editedState;
     }
 
-    case REMOVE_TASK: {
+    case actionTypes.REMOVE_TASK: {
       return [...state].filter((item: any) => item.id !== action.id);
     }
 

@@ -1,7 +1,7 @@
-import { ADD_TASK, EDIT_TASK, REMOVE_TASK } from './actionTypes';
+import { actionTypes } from './constant';
 
 export const addTask = (id: number, name: string, description: string, deadline: any) => ({
-  type: ADD_TASK,
+  type: actionTypes.ADD_TASK,
   id,
   name,
   description,
@@ -9,7 +9,7 @@ export const addTask = (id: number, name: string, description: string, deadline:
 })
 
 export const editTask = (id: number, name: string, description: string, deadline: any) => ({
-  type: EDIT_TASK,
+  type: actionTypes.EDIT_TASK,
   id,
   name,
   description,
@@ -17,6 +17,6 @@ export const editTask = (id: number, name: string, description: string, deadline
 })
 
 export const removeTask = (id: number) => ({
-  type: REMOVE_TASK,
+  type: actionTypes.REMOVE_TASK,
   id
 })

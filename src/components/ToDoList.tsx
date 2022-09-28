@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import TaskList from './list/TaskList';
-import AddTask from './actions/AddTask';
+import TaskList from './todo/list/TaskList';
+import AddTask from './todo/actions/AddTask';
 
 const ToDoList = (props: any) => {
   const todo = useSelector((state: any) => state.todos);

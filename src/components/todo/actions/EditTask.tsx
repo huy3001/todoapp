@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { addTask } from '../../features/actions';
-import formatDate from '../FormatDate';
+import { useDispatch } from 'react-redux';
+import { editTask } from '../../../features/todo/actions';
+import formatDate from '../../FormatDate';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -9,20 +9,20 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
-import AddIcon from '@mui/icons-material/Add';
-import dayjs from 'dayjs';
+import IconButton from '@mui/material/IconButton';
+import EditIcon from '@mui/icons-material/Edit';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
-const AddTask = (props: any) => {
+const EditTask = (props: any) => {
   const dispatch: any = useDispatch();
-  const todosLength: number = useSelector((state: any) => state.todos.length);
 
-  const [task, setTask] = useState({
-      name: '',
-      description: '',
-      deadline: formatDate(dayjs())
+  const [editedTask, setEditedTask] = useState({
+      editedId: props.task.id,
+      editedName: props.task.name,
+      editedDescription: props.task.description,
+      editedDeadline: props.task.deadline
   });
 
   const [open, setOpen] = useState(false);
@@ -35,57 +35,46 @@ const AddTask = (props: any) => {
     setOpen(false);
   }
 
-  const handleChangeName = (e: any) => {
-    setTask(task => ({
-      ...task,
-      name: e.target.value
+  const handleEditName = (e: any) => {
+    setEditedTask(editedTask => ({
+      ...editedTask,
+      editedName: e.target.value
     }));
   };
 
-  const handleChangeDescription = (e: any) => {
-    setTask(task => ({
-      ...task,
-      description: e.target.value
+  const handleEditDescription = (e: any) => {
+    setEditedTask(editedTask => ({
+      ...editedTask,
+      editedDescription: e.target.value
     }));
   };
 
-  const handleChangeDeadline = (day: any) => {
-    setTask(task => ({
-      ...task,
-      deadline: formatDate(day)
+  const handleEditDeadline = (day: any) => {
+    setEditedTask(editedTask => ({
+      ...editedTask,
+      editedDeadline: formatDate(day)
     }));
   };
 
-  const handleResetTask = () => {
-    setTask(task => ({
-      ...task,
-      name: '',
-      description: '',
-      deadline: formatDate(dayjs())
-    }));
+  const handleSaveEditedTask = () => {
+    dispatch(editTask(editedTask.editedId, editedTask.editedName, editedTask.editedDescription, editedTask.editedDeadline));
     handleCloseDialog();
-  }
-
-  const handleSaveTask = () => {
-    dispatch(addTask(todosLength + 1, task.name, task.description, task.deadline));
-    handleResetTask();
   }
 
   return (
     <div>
-      <Button 
-        variant="outlined" 
-        startIcon={<AddIcon />} 
+      <IconButton 
+        aria-label="edit"
         onClick={handleOpenDialog}
       >
-        Add Task
-      </Button>
+        <EditIcon />
+      </IconButton>
 
       <Dialog 
         open={open} 
         onClose={handleCloseDialog}
       >
-        <DialogTitle>Add New Task</DialogTitle>
+        <DialogTitle>Edit Selected Task</DialogTitle>
         <DialogContent>
           <Box component="form" autoComplete="off">
             <TextField 
@@ -94,7 +83,8 @@ const AddTask = (props: any) => {
               variant="outlined" 
               size="small" 
               margin="dense"
-              onChange={handleChangeName}
+              value={editedTask.editedName}
+              onChange={handleEditName}
               fullWidth required
             />
             <TextField 
@@ -103,15 +93,16 @@ const AddTask = (props: any) => {
               variant="outlined" 
               size="small"
               margin="dense"
-              onChange={handleChangeDescription} 
+              value={editedTask.editedDescription}
+              onChange={handleEditDescription} 
               fullWidth required
             />
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DesktopDatePicker
                 label="Deadline"
                 inputFormat="DD/MM/YYYY"
-                value={task.deadline}
-                onChange={handleChangeDeadline}
+                value={editedTask.editedDeadline}
+                onChange={handleEditDeadline}
                 renderInput={(params) => 
                   <TextField 
                     size="small" 
@@ -127,13 +118,13 @@ const AddTask = (props: any) => {
         <DialogActions>
           <Button 
             variant="contained" 
-            onClick={handleResetTask}
+            onClick={handleCloseDialog}
           >
             Cancel
           </Button>
           <Button 
             variant="contained" 
-            onClick={handleSaveTask}
+            onClick={handleSaveEditedTask}
           >
             Save
           </Button>
@@ -143,4 +134,4 @@ const AddTask = (props: any) => {
   );
 };
 
-export default AddTask;
+export default EditTask;
