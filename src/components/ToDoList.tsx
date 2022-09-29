@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import TaskList from './todo/list/TaskList';
 import AddTask from './todo/actions/AddTask';
 
-const ToDoList = (props: any) => {
+const ToDoList = () => {
   const todo = useSelector((state: any) => state.todos);
 
   return (

@@ -1,12 +1,6 @@
 import { userKeys, actionTypes } from './constant';
-import { userApi } from '../../api/userApi';
 
-const defaultState = {
-  current: JSON.parse(localStorage.getItem(userKeys.user)) || {},
-  settings: {}
-}
-
-const user = (state: any = defaultState, action: any) => {
+const user = (state: any, action: any) => {
   switch (action.type) {
     case actionTypes.LOGIN: {
       return state;
@@ -17,10 +11,6 @@ const user = (state: any = defaultState, action: any) => {
     }
 
     case actionTypes.LOGOUT: {
-      state.current = {}
-      localStorage.removeItem(userKeys.access);
-      localStorage.removeItem(userKeys.refresh);
-      localStorage.removeItem(userKeys.user);
       return state;
     }
   

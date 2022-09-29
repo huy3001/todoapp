@@ -15,10 +15,17 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
+interface IEditedTaskType {
+  editedId: number,
+  editedName: string,
+  editedDescription: string
+  editedDeadline?: string | any
+}
+
 const EditTask = (props: any) => {
   const dispatch: any = useDispatch();
 
-  const [editedTask, setEditedTask] = useState({
+  const [editedTask, setEditedTask] = useState<IEditedTaskType>({
       editedId: props.task.id,
       editedName: props.task.name,
       editedDescription: props.task.description,

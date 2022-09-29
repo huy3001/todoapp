@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { addTask } from '../../../features/todo/actions';
 import formatDate from '../../FormatDate';
 import Button from '@mui/material/Button';
@@ -15,15 +16,36 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
-const AddTask = (props: any) => {
+interface ITaskType {
+  id?: number | null,
+  name: string,
+  description: string
+  deadline?: string | any
+}
+
+interface IFormInput {
+  taskName: string,
+  taskDescription: string,
+  taskDeadline?: string | any
+}
+
+const AddTask:FC = () => {
   const dispatch: any = useDispatch();
   const todosLength: number = useSelector((state: any) => state.todos.length);
 
-  const [task, setTask] = useState({
-      name: '',
-      description: '',
-      deadline: formatDate(dayjs())
-  });
+  const {control, handleSubmit} = useForm<IFormInput>();
+  const onSubmit: SubmitHandler<IFormInput> = (data) => {
+    console.log(data);
+  }
+
+  const initialState: ITaskType = {
+    id: null,
+    name: '',
+    description: '',
+    deadline: formatDate(dayjs())
+  }
+
+  const [task, setTask] = useState<ITaskType>(initialState);
 
   const [open, setOpen] = useState(false);
 
@@ -57,12 +79,7 @@ const AddTask = (props: any) => {
   };
 
   const handleResetTask = () => {
-    setTask(task => ({
-      ...task,
-      name: '',
-      description: '',
-      deadline: formatDate(dayjs())
-    }));
+    setTask(initialState);
     handleCloseDialog();
   }
 
@@ -87,8 +104,30 @@ const AddTask = (props: any) => {
       >
         <DialogTitle>Add New Task</DialogTitle>
         <DialogContent>
-          <Box component="form" autoComplete="off">
-            <TextField 
+          <Box 
+            component="form" 
+            autoComplete="off"
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            <Controller
+              name="taskName"
+              control={control}
+              defaultValue=""
+              rules={{
+                required: true,
+                pattern: /[A-Za-z]/
+              }}
+              render={({field}) => <TextField
+                {...field}
+                label="Task Name"
+                variant="outlined" 
+                size="small" 
+                margin="dense"
+                onChange={handleChangeName}
+                fullWidth
+              />}
+            />
+            {/* <TextField 
               id="task-name" 
               label="Task Name"
               variant="outlined" 
@@ -96,7 +135,7 @@ const AddTask = (props: any) => {
               margin="dense"
               onChange={handleChangeName}
               fullWidth required
-            />
+            /> */}
             <TextField 
               id="task-description" 
               label="Task Description" 
@@ -132,7 +171,8 @@ const AddTask = (props: any) => {
             Cancel
           </Button>
           <Button 
-            variant="contained" 
+            variant="contained"
+            type="submit" 
             onClick={handleSaveTask}
           >
             Save
