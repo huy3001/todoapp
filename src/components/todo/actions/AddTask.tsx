@@ -33,7 +33,7 @@ const AddTask:FC = () => {
   const dispatch: any = useDispatch();
   const todosLength: number = useSelector((state: any) => state.todos.length);
 
-  const {control, handleSubmit} = useForm<IFormInput>();
+  const { register, control, handleSubmit, formState: { errors } } = useForm<IFormInput>();
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     console.log(data);
   }
@@ -85,6 +85,7 @@ const AddTask:FC = () => {
 
   const handleSaveTask = () => {
     dispatch(addTask(todosLength + 1, task.name, task.description, task.deadline));
+    handleSubmit(onSubmit);
     handleResetTask();
   }
 
@@ -107,43 +108,33 @@ const AddTask:FC = () => {
           <Box 
             component="form" 
             autoComplete="off"
-            onSubmit={handleSubmit(onSubmit)}
+            // onSubmit={handleSubmit(onSubmit)}
           >
-            <Controller
-              name="taskName"
-              control={control}
-              defaultValue=""
-              rules={{
-                required: true,
-                pattern: /[A-Za-z]/
-              }}
-              render={({field}) => <TextField
-                {...field}
-                label="Task Name"
-                variant="outlined" 
-                size="small" 
-                margin="dense"
-                onChange={handleChangeName}
-                fullWidth
-              />}
-            />
-            {/* <TextField 
-              id="task-name" 
+            <TextField 
+              id="task-name"
+              // name="taskName" 
               label="Task Name"
               variant="outlined" 
               size="small" 
               margin="dense"
-              onChange={handleChangeName}
+              // onChange={handleChangeName}
               fullWidth required
-            /> */}
+              {...register('taskName')}
+              error={errors.taskName ? true : false}
+              helperText={errors.taskName?.message}
+            />
             <TextField 
               id="task-description" 
+              // name="taskDescription"
               label="Task Description" 
               variant="outlined" 
               size="small"
               margin="dense"
-              onChange={handleChangeDescription} 
+              // onChange={handleChangeDescription} 
               fullWidth required
+              {...register('taskDescription')}
+              error={errors.taskDescription ? true : false}
+              helperText={errors.taskDescription?.message}
             />
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DesktopDatePicker
