@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { FC, ChangeEventHandler, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { editTask } from '../../../features/todo/actions';
-import formatDate from '../../FormatDate';
+import { ITaskType } from 'features/todo/types';
+import { editTask } from 'features/todo/actions';
+import formatDate from 'components/FormatDate';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -11,25 +12,16 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
-interface IEditedTaskType {
-  editedId: number,
-  editedName: string,
-  editedDescription: string
-  editedDeadline?: string | any
-}
-
-const EditTask = (props: any) => {
+const EditTask:FC<ITaskType> = ({ task }) => {
   const dispatch: any = useDispatch();
 
-  const [editedTask, setEditedTask] = useState<IEditedTaskType>({
-      editedId: props.task.id,
-      editedName: props.task.name,
-      editedDescription: props.task.description,
-      editedDeadline: props.task.deadline
+  const [editedTask, setEditedTask] = useState<ITaskType['task']>({
+      id: task.id,
+      name: task.name,
+      description: task.description,
+      deadline: task.deadline
   });
 
   const [open, setOpen] = useState(false);
@@ -42,29 +34,29 @@ const EditTask = (props: any) => {
     setOpen(false);
   }
 
-  const handleEditName = (e: any) => {
+  const handleEditName:ChangeEventHandler<HTMLInputElement> = (e) => {
     setEditedTask(editedTask => ({
       ...editedTask,
-      editedName: e.target.value
+      name: e.target.value
     }));
   };
 
-  const handleEditDescription = (e: any) => {
+  const handleEditDescription:ChangeEventHandler<HTMLInputElement> = (e) => {
     setEditedTask(editedTask => ({
       ...editedTask,
-      editedDescription: e.target.value
+      description: e.target.value
     }));
   };
 
-  const handleEditDeadline = (day: any) => {
+  const handleEditDeadline = (day: ITaskType['task']['deadline']) => {
     setEditedTask(editedTask => ({
       ...editedTask,
-      editedDeadline: formatDate(day)
+      deadline: formatDate(day)
     }));
   };
 
   const handleSaveEditedTask = () => {
-    dispatch(editTask(editedTask.editedId, editedTask.editedName, editedTask.editedDescription, editedTask.editedDeadline));
+    dispatch(editTask(editedTask.id, editedTask.name, editedTask.description, editedTask.deadline));
     handleCloseDialog();
   }
 
@@ -90,7 +82,7 @@ const EditTask = (props: any) => {
               variant="outlined" 
               size="small" 
               margin="dense"
-              value={editedTask.editedName}
+              value={editedTask.name}
               onChange={handleEditName}
               fullWidth required
             />
@@ -100,26 +92,24 @@ const EditTask = (props: any) => {
               variant="outlined" 
               size="small"
               margin="dense"
-              value={editedTask.editedDescription}
+              value={editedTask.description}
               onChange={handleEditDescription} 
               fullWidth required
             />
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DesktopDatePicker
-                label="Deadline"
-                inputFormat="DD/MM/YYYY"
-                value={editedTask.editedDeadline}
-                onChange={handleEditDeadline}
-                renderInput={(params) => 
-                  <TextField 
-                    size="small" 
-                    margin="dense"
-                    fullWidth required 
-                    {...params} 
-                  />
-                }
-              />
-            </LocalizationProvider>
+            <DesktopDatePicker
+              label="Deadline"
+              inputFormat="MM/DD/YYYY"
+              value={editedTask.deadline}
+              onChange={handleEditDeadline}
+              renderInput={(params) => 
+                <TextField 
+                  size="small" 
+                  margin="dense"
+                  fullWidth required 
+                  {...params} 
+                />
+              }
+            />
           </Box>
         </DialogContent>
         <DialogActions>

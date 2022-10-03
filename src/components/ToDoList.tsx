@@ -1,14 +1,15 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import TaskList from './todo/list/TaskList';
-import AddTask from './todo/actions/AddTask';
+import { selectTodos } from 'features/todo/selectors';
+import TaskList from 'components/todo/list/TaskList';
+import AddTask from 'components/todo/actions/AddTask';
 
 const ToDoList = () => {
-  const todo = useSelector((state: any) => state.todos);
+  const todos: [] = useSelector(selectTodos);
 
   return (
     <div>
-      <TaskList list={todo} />
+      <TaskList list={todos} />
       <AddTask />
     </div>
   )

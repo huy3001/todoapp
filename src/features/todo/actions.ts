@@ -1,4 +1,4 @@
-import { actionTypes } from './constant';
+import { actionTypes } from 'features/todo/constant';
 
 export const addTask = (id: number, name: string, description: string, deadline: any) => ({
   type: actionTypes.ADD_TASK,

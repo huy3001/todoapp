@@ -1,5 +1,6 @@
-import React from 'react';
-import TaskItem from './TaskItem';
+import React, { FC } from 'react';
+import TaskItem from 'components/todo/list/TaskItem';
+import { ITaskType } from 'features/todo/types';
 import Table from '@mui/material/Table';
 import TableHead from '@mui/material/TableHead';
 import TableBody from '@mui/material/TableBody';
@@ -8,7 +9,11 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import Paper from '@mui/material/Paper';
 
-const TaskList = (props: any) => {
+interface IListType {
+  list: []
+}
+
+const TaskList:FC<IListType> = ({ list }) => {
   return (
     <div 
       className="TaskList" 
@@ -26,7 +31,7 @@ const TaskList = (props: any) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {props.list.map((item: any) => (
+            {list.map((item: ITaskType['task']) => (
               <TaskItem task={item} key={item.id} />
             ))}
           </TableBody>

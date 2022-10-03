@@ -1,8 +1,11 @@
-import React, { FC, useState } from 'react';
+import React, { ChangeEventHandler, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
-import { addTask } from '../../../features/todo/actions';
-import formatDate from '../../FormatDate';
+import { ITaskType, ITaskInput } from 'features/todo/types';
+import { selectTodos } from 'features/todo/selectors';
+import { addTask } from 'features/todo/actions';
+import formatDate from 'components/FormatDate';
+import dayjs from 'dayjs';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -11,41 +14,25 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import AddIcon from '@mui/icons-material/Add';
-import dayjs from 'dayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
-interface ITaskType {
-  id?: number | null,
-  name: string,
-  description: string
-  deadline?: string | any
-}
-
-interface IFormInput {
-  taskName: string,
-  taskDescription: string,
-  taskDeadline?: string | any
-}
-
-const AddTask:FC = () => {
+const AddTask = () => {
   const dispatch: any = useDispatch();
-  const todosLength: number = useSelector((state: any) => state.todos.length);
+  const todosLength: number = useSelector(selectTodos).length;
 
-  const { register, control, handleSubmit, formState: { errors } } = useForm<IFormInput>();
-  const onSubmit: SubmitHandler<IFormInput> = (data) => {
+  const { register, control, handleSubmit, formState: { errors } } = useForm<ITaskInput>();
+  const onSubmit: SubmitHandler<ITaskInput> = (data) => {
     console.log(data);
   }
 
-  const initialState: ITaskType = {
-    id: null,
+  const initialState = {
+    id: todosLength,
     name: '',
     description: '',
     deadline: formatDate(dayjs())
   }
 
-  const [task, setTask] = useState<ITaskType>(initialState);
+  const [task, setTask] = useState<ITaskType['task']>(initialState);
 
   const [open, setOpen] = useState(false);
 
@@ -57,21 +44,21 @@ const AddTask:FC = () => {
     setOpen(false);
   }
 
-  const handleChangeName = (e: any) => {
+  const handleChangeName:ChangeEventHandler<HTMLInputElement> = (e) => {
     setTask(task => ({
       ...task,
       name: e.target.value
     }));
   };
 
-  const handleChangeDescription = (e: any) => {
+  const handleChangeDescription:ChangeEventHandler<HTMLInputElement> = (e) => {
     setTask(task => ({
       ...task,
       description: e.target.value
     }));
   };
 
-  const handleChangeDeadline = (day: any) => {
+  const handleChangeDeadline = (day: ITaskType['task']['deadline']) => {
     setTask(task => ({
       ...task,
       deadline: formatDate(day)
@@ -80,7 +67,7 @@ const AddTask:FC = () => {
 
   const handleResetTask = () => {
     setTask(initialState);
-    handleCloseDialog();
+    // handleCloseDialog();
   }
 
   const handleSaveTask = () => {
@@ -136,22 +123,20 @@ const AddTask:FC = () => {
               error={errors.taskDescription ? true : false}
               helperText={errors.taskDescription?.message}
             />
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DesktopDatePicker
-                label="Deadline"
-                inputFormat="DD/MM/YYYY"
-                value={task.deadline}
-                onChange={handleChangeDeadline}
-                renderInput={(params) => 
-                  <TextField 
-                    size="small" 
-                    margin="dense"
-                    fullWidth required 
-                    {...params} 
-                  />
-                }
-              />
-            </LocalizationProvider>
+            <DesktopDatePicker
+              label="Deadline"
+              inputFormat="MM/DD/YYYY"
+              value={task.deadline}
+              onChange={handleChangeDeadline}
+              renderInput={(params) => 
+                <TextField 
+                  size="small" 
+                  margin="dense"
+                  fullWidth required 
+                  {...params} 
+                />
+              }
+            />
           </Box>
         </DialogContent>
         <DialogActions>

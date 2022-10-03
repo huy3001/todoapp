@@ -1,7 +1,7 @@
 import React from 'react';
-import Title from './Title';
-import ToDoList from './ToDoList';
-import formatDate from './FormatDate';
+import Title from 'components/Title';
+import ToDoList from 'components/ToDoList';
+import formatDate from 'components/FormatDate';
 import dayjs from 'dayjs';
 
 const Home = () => {

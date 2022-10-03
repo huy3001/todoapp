@@ -1,1 +1,1 @@
-import { userKeys } from './constant';
+import { userKeys } from 'features/user/constant';

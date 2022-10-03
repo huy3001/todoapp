@@ -1,5 +1,5 @@
-import { actionTypes } from './constant';
-import formatDate from '../../components/FormatDate';
+import { actionTypes } from 'features/todo/constant';
+import formatDate from 'components/FormatDate';
 import { findIndex } from 'lodash';
 import dayjs from 'dayjs';
 

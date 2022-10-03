@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import taskList from '../features/todo/reducer';
+import taskList from 'features/todo/reducer';
 
 const store = configureStore({
   reducer: {

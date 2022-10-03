@@ -1,4 +1,4 @@
-import { userKeys, actionTypes } from './constant';
+import { userKeys, actionTypes } from 'features/user/constant';
 
 const user = (state: any, action: any) => {
   switch (action.type) {
