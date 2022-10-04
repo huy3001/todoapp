@@ -1,7 +1,7 @@
 import React, { FC, ChangeEventHandler, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { ITaskType } from 'features/todo/types';
-import { editTask } from 'features/todo/actions';
+import { editTask } from 'features/todo/reducer';
 import formatDate from 'components/FormatDate';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
@@ -14,10 +14,14 @@ import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
-const EditTask:FC<ITaskType> = ({ task }) => {
+interface IEditedTaskType {
+  task: ITaskType
+}
+
+const EditTask:FC<IEditedTaskType> = ({ task }) => {
   const dispatch: any = useDispatch();
 
-  const [editedTask, setEditedTask] = useState<ITaskType['task']>({
+  const [editedTask, setEditedTask] = useState<ITaskType>({
       id: task.id,
       name: task.name,
       description: task.description,
@@ -48,7 +52,7 @@ const EditTask:FC<ITaskType> = ({ task }) => {
     }));
   };
 
-  const handleEditDeadline = (day: ITaskType['task']['deadline']) => {
+  const handleEditDeadline = (day: ITaskType['deadline']) => {
     setEditedTask(editedTask => ({
       ...editedTask,
       deadline: formatDate(day)
@@ -56,7 +60,7 @@ const EditTask:FC<ITaskType> = ({ task }) => {
   };
 
   const handleSaveEditedTask = () => {
-    dispatch(editTask(editedTask.id, editedTask.name, editedTask.description, editedTask.deadline));
+    dispatch(editTask(editedTask));
     handleCloseDialog();
   }
 

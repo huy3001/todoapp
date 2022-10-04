@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { ITaskType, ITaskInput } from 'features/todo/types';
 import { selectTodos } from 'features/todo/selectors';
-import { addTask } from 'features/todo/actions';
+import { addTask } from 'features/todo/reducer';
 import formatDate from 'components/FormatDate';
 import dayjs from 'dayjs';
 import Button from '@mui/material/Button';
@@ -32,7 +32,7 @@ const AddTask = () => {
     deadline: formatDate(dayjs())
   }
 
-  const [task, setTask] = useState<ITaskType['task']>(initialState);
+  const [task, setTask] = useState<ITaskType>(initialState);
 
   const [open, setOpen] = useState(false);
 
@@ -58,7 +58,7 @@ const AddTask = () => {
     }));
   };
 
-  const handleChangeDeadline = (day: ITaskType['task']['deadline']) => {
+  const handleChangeDeadline = (day: ITaskType['deadline']) => {
     setTask(task => ({
       ...task,
       deadline: formatDate(day)
@@ -71,7 +71,7 @@ const AddTask = () => {
   }
 
   const handleSaveTask = () => {
-    dispatch(addTask(todosLength + 1, task.name, task.description, task.deadline));
+    dispatch(addTask(task));
     handleSubmit(onSubmit);
     handleResetTask();
   }

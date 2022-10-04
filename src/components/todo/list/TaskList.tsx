@@ -31,7 +31,7 @@ const TaskList:FC<IListType> = ({ list }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {list.map((item: ITaskType['task']) => (
+            {list.map((item: ITaskType) => (
               <TaskItem task={item} key={item.id} />
             ))}
           </TableBody>
