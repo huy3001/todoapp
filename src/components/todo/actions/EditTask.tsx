@@ -1,6 +1,7 @@
-import React, { FC, ChangeEventHandler, useState } from 'react';
+import React, { FC, ChangeEventHandler, useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { ITaskType } from 'features/todo/types';
+import { useForm, Controller, SubmitHandler } from 'react-hook-form';
+import { ITaskType, ITaskInput } from 'features/todo/types';
 import { editTask } from 'features/todo/reducer';
 import formatDate from 'components/FormatDate';
 import Button from '@mui/material/Button';
@@ -27,6 +28,20 @@ const EditTask:FC<IEditedTaskType> = ({ task }) => {
       description: task.description,
       deadline: task.deadline
   });
+
+  const defaultValues: ITaskInput = {
+    taskName: task.name,
+    taskDescription: task.description,
+    taskDeadline: task.deadline
+  }
+
+  const { control, reset, handleSubmit, formState: { errors, isSubmitSuccessful } } = useForm<ITaskInput>({
+    defaultValues
+  });
+
+  const onSubmit: SubmitHandler<ITaskInput> = (data) => {
+    console.log(data);
+  }
 
   const [open, setOpen] = useState(false);
 
@@ -64,6 +79,12 @@ const EditTask:FC<IEditedTaskType> = ({ task }) => {
     handleCloseDialog();
   }
 
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset(defaultValues);
+    }
+  }, [defaultValues, isSubmitSuccessful, reset])
+
   return (
     <div>
       <IconButton 
@@ -79,40 +100,67 @@ const EditTask:FC<IEditedTaskType> = ({ task }) => {
       >
         <DialogTitle>Edit Selected Task</DialogTitle>
         <DialogContent>
-          <Box component="form" autoComplete="off">
-            <TextField 
-              id="task-name" 
-              label="Task Name"
-              variant="outlined" 
-              size="small" 
-              margin="dense"
-              value={editedTask.name}
-              onChange={handleEditName}
-              fullWidth required
-            />
-            <TextField 
-              id="task-description" 
-              label="Task Description" 
-              variant="outlined" 
-              size="small"
-              margin="dense"
-              value={editedTask.description}
-              onChange={handleEditDescription} 
-              fullWidth required
-            />
-            <DesktopDatePicker
-              label="Deadline"
-              inputFormat="MM/DD/YYYY"
-              value={editedTask.deadline}
-              onChange={handleEditDeadline}
-              renderInput={(params) => 
+          <Box 
+            component="form" 
+            autoComplete="off"
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            <Controller
+              name="taskName"
+              control={control}
+              render={({ field }) => (
                 <TextField 
+                  {...field}
+                  label="Task Name"
+                  variant="outlined" 
                   size="small" 
                   margin="dense"
-                  fullWidth required 
-                  {...params} 
+                  value={editedTask.name}
+                  onChange={handleEditName}
+                  fullWidth required
+                  error={errors.taskName ? true : false}
+                  helperText={errors.taskName?.message}
                 />
-              }
+              )}
+            />
+            <Controller
+              name="taskDescription"
+              control={control}
+              render={({ field }) => (
+                <TextField 
+                  {...field}
+                  label="Task Description" 
+                  variant="outlined" 
+                  size="small"
+                  margin="dense"
+                  value={editedTask.description}
+                  onChange={handleEditDescription} 
+                  fullWidth required
+                  error={errors.taskDescription ? true : false}
+                  helperText={errors.taskDescription?.message}
+                />
+              )}
+            />
+            <Controller
+              name="taskDeadline"
+              control={control}
+              render={({ field }) => (
+                <DesktopDatePicker
+                  {...field}
+                  label="Deadline"
+                  inputFormat="MM/DD/YYYY"
+                  value={editedTask.deadline}
+                  onChange={handleEditDeadline}
+                  renderInput={(params) => 
+                    <TextField 
+                      size="small" 
+                      margin="dense"
+                      fullWidth required 
+                      {...params} 
+                    />
+                  }
+                />
+              )}
             />
           </Box>
         </DialogContent>

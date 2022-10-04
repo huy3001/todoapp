@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, useState } from 'react';
+import React, { ChangeEventHandler, useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { ITaskType, ITaskInput } from 'features/todo/types';
@@ -20,7 +20,16 @@ const AddTask = () => {
   const dispatch: any = useDispatch();
   const todosLength: number = useSelector(selectTodos).length;
 
-  const { register, control, handleSubmit, formState: { errors } } = useForm<ITaskInput>();
+  const defaultValues: ITaskInput = {
+    taskName: '',
+    taskDescription: '',
+    taskDeadline: formatDate(dayjs())
+  }
+
+  const { control, reset, handleSubmit, formState: { errors, isSubmitSuccessful } } = useForm<ITaskInput>({
+    defaultValues
+  });
+
   const onSubmit: SubmitHandler<ITaskInput> = (data) => {
     console.log(data);
   }
@@ -67,14 +76,25 @@ const AddTask = () => {
 
   const handleResetTask = () => {
     setTask(initialState);
-    // handleCloseDialog();
+    handleCloseDialog();
   }
 
   const handleSaveTask = () => {
-    dispatch(addTask(task));
-    handleSubmit(onSubmit);
+    const newTask: ITaskType = {
+      id: todosLength + 1,
+      name: task.name,
+      description: task.description,
+      deadline: task.deadline
+    }
+    dispatch(addTask(newTask));
     handleResetTask();
   }
+
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset(defaultValues);
+    }
+  }, [defaultValues, isSubmitSuccessful, reset])
 
   return (
     <div>
@@ -93,49 +113,66 @@ const AddTask = () => {
         <DialogTitle>Add New Task</DialogTitle>
         <DialogContent>
           <Box 
-            component="form" 
+            component="form"
             autoComplete="off"
-            // onSubmit={handleSubmit(onSubmit)}
+            onSubmit={handleSubmit(onSubmit)}
           >
-            <TextField 
-              id="task-name"
-              // name="taskName" 
-              label="Task Name"
-              variant="outlined" 
-              size="small" 
-              margin="dense"
-              // onChange={handleChangeName}
-              fullWidth required
-              {...register('taskName')}
-              error={errors.taskName ? true : false}
-              helperText={errors.taskName?.message}
-            />
-            <TextField 
-              id="task-description" 
-              // name="taskDescription"
-              label="Task Description" 
-              variant="outlined" 
-              size="small"
-              margin="dense"
-              // onChange={handleChangeDescription} 
-              fullWidth required
-              {...register('taskDescription')}
-              error={errors.taskDescription ? true : false}
-              helperText={errors.taskDescription?.message}
-            />
-            <DesktopDatePicker
-              label="Deadline"
-              inputFormat="MM/DD/YYYY"
-              value={task.deadline}
-              onChange={handleChangeDeadline}
-              renderInput={(params) => 
+            <Controller
+              name="taskName"
+              control={control}
+              render={({ field }) => (
                 <TextField 
+                  {...field}
+                  label="Task Name"
+                  variant="outlined" 
                   size="small" 
                   margin="dense"
-                  fullWidth required 
-                  {...params} 
+                  value={task.name}
+                  onChange={handleChangeName}
+                  fullWidth required
+                  error={errors.taskName ? true : false}
+                  helperText={errors.taskName?.message}
                 />
-              }
+              )}
+            />
+            <Controller
+              name="taskDescription"
+              control={control}
+              render={({ field }) => (
+                <TextField 
+                  {...field}
+                  label="Task Description" 
+                  variant="outlined" 
+                  size="small"
+                  margin="dense"
+                  value={task.description}
+                  onChange={handleChangeDescription} 
+                  fullWidth required
+                  error={errors.taskDescription ? true : false}
+                  helperText={errors.taskDescription?.message}
+                />
+              )}
+            />
+            <Controller
+              name="taskDeadline"
+              control={control}
+              render={({ field }) => (
+                <DesktopDatePicker
+                  {...field}
+                  label="Deadline"
+                  inputFormat="MM/DD/YYYY"
+                  value={task.deadline}
+                  onChange={handleChangeDeadline}
+                  renderInput={(params) => 
+                    <TextField 
+                      size="small" 
+                      margin="dense"
+                      fullWidth required 
+                      {...params} 
+                    />
+                  }
+                />
+              )}
             />
           </Box>
         </DialogContent>
