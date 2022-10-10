@@ -1,4 +1,4 @@
-import React, { FC, ChangeEventHandler, useState, useEffect } from 'react';
+import React, { FC, ChangeEventHandler, useState, useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { ITaskType, ITaskInput } from 'features/todo/types';
@@ -29,11 +29,13 @@ const EditTask:FC<IEditedTaskType> = ({ task }) => {
       deadline: task.deadline
   });
 
-  const defaultValues: ITaskInput = {
-    taskName: task.name,
-    taskDescription: task.description,
-    taskDeadline: task.deadline
-  }
+  const defaultValues: ITaskInput = useMemo(() => (
+    {
+      taskName: task.name,
+      taskDescription: task.description,
+      taskDeadline: task.deadline
+    }
+  ), [task]);
 
   const { control, reset, handleSubmit, formState: { errors, isSubmitSuccessful } } = useForm<ITaskInput>({
     defaultValues

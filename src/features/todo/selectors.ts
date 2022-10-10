@@ -1,1 +1,3 @@
-export const selectTodos = (state: any) => state.todos;
+import { RootState } from "store/store";
+
+export const selectTodos = (state: RootState) => state.todos;

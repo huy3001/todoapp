@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ITaskType } from 'features/todo/types';
 import formatDate from 'components/FormatDate';
-import { findIndex } from 'lodash';
+import findIndex from 'lodash/findIndex';
 import dayjs from 'dayjs';
 
 let defaultState:ITaskType[] = [

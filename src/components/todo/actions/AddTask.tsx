@@ -1,9 +1,10 @@
-import React, { ChangeEventHandler, useState, useEffect } from 'react';
+import React, { ChangeEventHandler, useState, useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { ITaskType, ITaskInput } from 'features/todo/types';
 import { selectTodos } from 'features/todo/selectors';
 import { addTask } from 'features/todo/reducer';
+import { AppDispatch } from 'store/store';
 import formatDate from 'components/FormatDate';
 import dayjs from 'dayjs';
 import Button from '@mui/material/Button';
@@ -17,14 +18,14 @@ import AddIcon from '@mui/icons-material/Add';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
 const AddTask = () => {
-  const dispatch: any = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const todosLength: number = useSelector(selectTodos).length;
 
-  const defaultValues: ITaskInput = {
+  const defaultValues: ITaskInput = useMemo(() => ({
     taskName: '',
     taskDescription: '',
     taskDeadline: formatDate(dayjs())
-  }
+  }), []);
 
   const { control, reset, handleSubmit, formState: { errors, isSubmitSuccessful } } = useForm<ITaskInput>({
     defaultValues
