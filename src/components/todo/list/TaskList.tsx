@@ -10,7 +10,7 @@ import TableContainer from '@mui/material/TableContainer';
 import Paper from '@mui/material/Paper';
 
 interface IListType {
-  list: []
+  list: ITaskType[]
 }
 
 const TaskList:FC<IListType> = ({ list }) => {

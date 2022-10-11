@@ -1,11 +1,11 @@
-import React, { FC, ChangeEventHandler, useState, useEffect, useMemo } from 'react';
+import React, { FC, useState, useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { ITaskType, ITaskInput } from 'features/todo/types';
 import { editTask } from 'features/todo/reducer';
+import { AppDispatch } from 'store/store';
 import formatDate from 'components/FormatDate';
 import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -20,14 +20,7 @@ interface IEditedTaskType {
 }
 
 const EditTask:FC<IEditedTaskType> = ({ task }) => {
-  const dispatch: any = useDispatch();
-
-  const [editedTask, setEditedTask] = useState<ITaskType>({
-      id: task.id,
-      name: task.name,
-      description: task.description,
-      deadline: task.deadline
-  });
+  const dispatch: AppDispatch = useDispatch();
 
   const defaultValues: ITaskInput = useMemo(() => (
     {
@@ -37,13 +30,9 @@ const EditTask:FC<IEditedTaskType> = ({ task }) => {
     }
   ), [task]);
 
-  const { control, reset, handleSubmit, formState: { errors, isSubmitSuccessful } } = useForm<ITaskInput>({
+  const { control, reset, handleSubmit, formState: { isSubmitSuccessful } } = useForm<ITaskInput>({
     defaultValues
   });
-
-  const onSubmit: SubmitHandler<ITaskInput> = (data) => {
-    console.log(data);
-  }
 
   const [open, setOpen] = useState(false);
 
@@ -55,28 +44,14 @@ const EditTask:FC<IEditedTaskType> = ({ task }) => {
     setOpen(false);
   }
 
-  const handleEditName:ChangeEventHandler<HTMLInputElement> = (e) => {
-    setEditedTask(editedTask => ({
-      ...editedTask,
-      name: e.target.value
-    }));
-  };
-
-  const handleEditDescription:ChangeEventHandler<HTMLInputElement> = (e) => {
-    setEditedTask(editedTask => ({
-      ...editedTask,
-      description: e.target.value
-    }));
-  };
-
-  const handleEditDeadline = (day: ITaskType['deadline']) => {
-    setEditedTask(editedTask => ({
-      ...editedTask,
-      deadline: formatDate(day)
-    }));
-  };
-
-  const handleSaveEditedTask = () => {
+  const handleSubmitEditedTask: SubmitHandler<ITaskInput> = (data) => {
+    console.log(data);
+    const editedTask:ITaskType = {
+      id: task.id,
+      name: data.taskName,
+      description: data.taskDescription,
+      deadline: formatDate(data.taskDeadline)
+    }
     dispatch(editTask(editedTask));
     handleCloseDialog();
   }
@@ -100,86 +75,100 @@ const EditTask:FC<IEditedTaskType> = ({ task }) => {
         open={open} 
         onClose={handleCloseDialog}
       >
-        <DialogTitle>Edit Selected Task</DialogTitle>
-        <DialogContent>
-          <Box 
-            component="form" 
-            autoComplete="off"
-            onSubmit={handleSubmit(onSubmit)}
-          >
+        <form onSubmit={handleSubmit(handleSubmitEditedTask)}>
+          <DialogTitle>Edit Selected Task</DialogTitle>
+          <DialogContent>
             <Controller
               name="taskName"
               control={control}
-              render={({ field }) => (
+              rules={{
+                required: true,
+                minLength: {
+                  value: 6,
+                  message: 'Task name too short'
+                },
+                maxLength: {
+                  value: 50,
+                  message: 'Task name too long'
+                }
+              }}
+              render={({ field, fieldState: { error } }) => (
                 <TextField 
                   {...field}
                   label="Task Name"
                   variant="outlined" 
                   size="small" 
                   margin="dense"
-                  value={editedTask.name}
-                  onChange={handleEditName}
-                  fullWidth required
-                  error={errors.taskName ? true : false}
-                  helperText={errors.taskName?.message}
+                  fullWidth
+                  error={error ? true : false}
+                  helperText={error?.message}
                 />
               )}
             />
             <Controller
               name="taskDescription"
               control={control}
-              render={({ field }) => (
+              rules={{
+                required: true,
+                minLength: {
+                  value: 10,
+                  message: 'Task description too short'
+                }
+              }}
+              render={({ field, fieldState: { error } }) => (
                 <TextField 
                   {...field}
                   label="Task Description" 
                   variant="outlined" 
                   size="small"
                   margin="dense"
-                  value={editedTask.description}
-                  onChange={handleEditDescription} 
-                  fullWidth required
-                  error={errors.taskDescription ? true : false}
-                  helperText={errors.taskDescription?.message}
+                  fullWidth
+                  error={error ? true : false}
+                  helperText={error?.message}
                 />
               )}
             />
             <Controller
               name="taskDeadline"
               control={control}
-              render={({ field }) => (
+              rules={{
+                required: true
+              }}
+              render={({ field, fieldState: { error } }) => (
                 <DesktopDatePicker
                   {...field}
                   label="Deadline"
                   inputFormat="MM/DD/YYYY"
-                  value={editedTask.deadline}
-                  onChange={handleEditDeadline}
                   renderInput={(params) => 
                     <TextField 
                       size="small" 
                       margin="dense"
-                      fullWidth required 
+                      fullWidth
+                      error={error ? true : false}
+                      helperText={error?.message}  
                       {...params} 
                     />
                   }
                 />
               )}
             />
-          </Box>
-        </DialogContent>
-        <DialogActions>
-          <Button 
-            variant="contained" 
-            onClick={handleCloseDialog}
-          >
-            Cancel
-          </Button>
-          <Button 
-            variant="contained" 
-            onClick={handleSaveEditedTask}
-          >
-            Save
-          </Button>
-        </DialogActions>
+          </DialogContent>
+          <DialogActions>
+            <Button 
+              variant="contained"
+              type="reset" 
+              onClick={handleCloseDialog}
+            >
+              Cancel
+            </Button>
+            <Button 
+              variant="contained"
+              type="submit" 
+            >
+              Save
+            </Button>
+          </DialogActions>
+        </form>
       </Dialog>
     </div>
   );
