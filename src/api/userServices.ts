@@ -1,23 +1,23 @@
-import axiosClient from './axiosClient';
-import authHeader from './authHeader';
+import axiosClient from 'api/axiosClient';
+import authHeader from 'api/authHeader';
 
 const userServices = {
     getAllUsers() {
         const url = 'users';
         return axiosClient.get(url, {
-            // headers: authHeader()
+            headers: authHeader()
         });
     },
     getUser(id: number) {
         const url = `users/${id}`;
         return axiosClient.get(url, {
-            // headers: authHeader()
+            headers: authHeader()
         });
     },
     getProfile() {
         const url = 'profile';
         return axiosClient.get(url, {
-            // headers: authHeader()
+            headers: authHeader()
         });
     }
 }

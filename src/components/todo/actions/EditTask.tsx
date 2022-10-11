@@ -77,105 +77,107 @@ const EditTask: FC<IEditedTaskType> = ({ task }) => {
         <EditIcon />
       </IconButton>
 
-      <Dialog
-        open={open}
-        onClose={handleCloseDialog}
-      >
-        <form onSubmit={handleSubmit(handleSubmitEditedTask)}>
-          <DialogTitle>Edit Selected Task</DialogTitle>
-          <DialogContent>
-            <Controller
-              name="taskName"
-              control={control}
-              rules={{
-                required: true,
-                minLength: {
-                  value: 6,
-                  message: 'Task name too short',
-                },
-                maxLength: {
-                  value: 50,
-                  message: 'Task name too long',
-                },
-              }}
-              render={({ field, fieldState: { error } }) => (
-                <TextField
-                  {...field}
-                  label="Task Name"
-                  variant="outlined"
-                  size="small"
-                  margin="dense"
-                  fullWidth
-                  error={error ? true : false}
-                  helperText={error?.message}
-                />
-              )}
-            />
-            <Controller
-              name="taskDescription"
-              control={control}
-              rules={{
-                required: true,
-                minLength: {
-                  value: 10,
-                  message: 'Task description too short',
-                },
-              }}
-              render={({ field, fieldState: { error } }) => (
-                <TextField
-                  {...field}
-                  label="Task Description"
-                  variant="outlined"
-                  size="small"
-                  margin="dense"
-                  fullWidth
-                  error={error ? true : false}
-                  helperText={error?.message}
-                />
-              )}
-            />
-            <Controller
-              name="taskDeadline"
-              control={control}
-              rules={{
-                required: true,
-              }}
-              render={({ field, fieldState: { error } }) => (
-                <DesktopDatePicker
-                  {...field}
-                  label="Deadline"
-                  inputFormat="MM/DD/YYYY"
-                  renderInput={(params) => (
-                    <TextField
-                      size="small"
-                      margin="dense"
-                      fullWidth
-                      error={error ? true : false}
-                      helperText={error?.message}
-                      {...params}
-                    />
-                  )}
-                />
-              )}
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button
-              variant="contained"
-              type="reset"
-              onClick={handleCloseDialog}
-            >
-              Cancel
-            </Button>
-            <Button
-              variant="contained"
-              type="submit"
-            >
-              Save
-            </Button>
-          </DialogActions>
-        </form>
-      </Dialog>
+      {open && (
+        <Dialog
+          open={open}
+          onClose={handleCloseDialog}
+        >
+          <form onSubmit={handleSubmit(handleSubmitEditedTask)}>
+            <DialogTitle>Edit Selected Task</DialogTitle>
+            <DialogContent>
+              <Controller
+                name="taskName"
+                control={control}
+                rules={{
+                  required: true,
+                  minLength: {
+                    value: 6,
+                    message: 'Task name too short',
+                  },
+                  maxLength: {
+                    value: 50,
+                    message: 'Task name too long',
+                  },
+                }}
+                render={({ field, fieldState: { error } }) => (
+                  <TextField
+                    {...field}
+                    label="Task Name"
+                    variant="outlined"
+                    size="small"
+                    margin="dense"
+                    fullWidth
+                    error={error ? true : false}
+                    helperText={error?.message}
+                  />
+                )}
+              />
+              <Controller
+                name="taskDescription"
+                control={control}
+                rules={{
+                  required: true,
+                  minLength: {
+                    value: 10,
+                    message: 'Task description too short',
+                  },
+                }}
+                render={({ field, fieldState: { error } }) => (
+                  <TextField
+                    {...field}
+                    label="Task Description"
+                    variant="outlined"
+                    size="small"
+                    margin="dense"
+                    fullWidth
+                    error={error ? true : false}
+                    helperText={error?.message}
+                  />
+                )}
+              />
+              <Controller
+                name="taskDeadline"
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field, fieldState: { error } }) => (
+                  <DesktopDatePicker
+                    {...field}
+                    label="Deadline"
+                    inputFormat="MM/DD/YYYY"
+                    renderInput={(params) => (
+                      <TextField
+                        size="small"
+                        margin="dense"
+                        fullWidth
+                        error={error ? true : false}
+                        helperText={error?.message}
+                        {...params}
+                      />
+                    )}
+                  />
+                )}
+              />
+            </DialogContent>
+            <DialogActions>
+              <Button
+                variant="contained"
+                type="reset"
+                onClick={handleCloseDialog}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="contained"
+                type="submit"
+              >
+                Save
+              </Button>
+            </DialogActions>
+          </form>
+        </Dialog>
+      )}
     </div>
   );
 };

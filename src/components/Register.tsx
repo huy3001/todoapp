@@ -1,18 +1,39 @@
-import React from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
+import { useForm, Controller, SubmitHandler } from 'react-hook-form';
+import { IRegisterInput } from 'features/user/types';
 import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import TextField from '@mui/material/TextField';
 
 const Register = () => {
-  const handleUsername = () => {};
+  const defaultValues: IRegisterInput = useMemo(
+    () => ({
+      user: '',
+      email: '',
+      password: '',
+    }),
+    []
+  );
 
-  const handleEmail = () => {};
+  const {
+    control,
+    reset,
+    handleSubmit,
+    formState: { isSubmitSuccessful },
+  } = useForm<IRegisterInput>({
+    defaultValues,
+  });
 
-  const handlePassword = () => {};
+  const handleRegister: SubmitHandler<IRegisterInput> = (data) => {
+    console.log(data);
+  };
 
-  const handleRegister = () => {};
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset(defaultValues);
+    }
+  }, [defaultValues, isSubmitSuccessful, reset]);
 
   return (
     <div className="Register">
@@ -21,52 +42,92 @@ const Register = () => {
         sx={{ width: '400px', mx: 'auto', my: 4, p: 2 }}
       >
         <h1>Sign Up</h1>
-        <Box
-          component="form"
-          autoComplete="off"
-        >
-          <TextField
-            id="username"
-            label="User Name"
-            variant="outlined"
-            size="small"
-            margin="dense"
-            onChange={handleUsername}
-            fullWidth
-            required
+        <form onSubmit={handleSubmit(handleRegister)}>
+          <Controller
+            name="user"
+            control={control}
+            rules={{
+              required: true,
+              minLength: {
+                value: 8,
+                message: 'User name too short',
+              },
+            }}
+            render={({ field, fieldState: { error } }) => (
+              <TextField
+                {...field}
+                label="User Name"
+                variant="outlined"
+                size="small"
+                margin="dense"
+                fullWidth
+                error={error ? true : false}
+                helperText={error?.message}
+              />
+            )}
           />
-          <TextField
-            id="email"
-            label="Email"
-            variant="outlined"
-            size="small"
-            margin="dense"
-            type="email"
-            onChange={handleEmail}
-            fullWidth
-            required
+          <Controller
+            name="email"
+            control={control}
+            rules={{
+              required: true,
+              minLength: {
+                value: 8,
+                message: 'Email too short',
+              },
+              pattern: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+            }}
+            render={({ field, fieldState: { error } }) => (
+              <TextField
+                {...field}
+                label="Email"
+                variant="outlined"
+                size="small"
+                margin="dense"
+                fullWidth
+                error={error ? true : false}
+                helperText={error?.message}
+              />
+            )}
           />
-          <TextField
-            id="password"
-            label="Password"
-            variant="outlined"
-            size="small"
-            margin="dense"
-            type="password"
-            onChange={handlePassword}
-            fullWidth
-            required
+          <Controller
+            name="password"
+            control={control}
+            rules={{
+              required: true,
+              minLength: {
+                value: 8,
+                message: 'Password too short',
+              },
+              maxLength: {
+                value: 20,
+                message: 'Password too long',
+              },
+              pattern:
+                /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
+            }}
+            render={({ field, fieldState: { error } }) => (
+              <TextField
+                {...field}
+                label="Password"
+                variant="outlined"
+                size="small"
+                margin="dense"
+                fullWidth
+                error={error ? true : false}
+                helperText={error?.message}
+              />
+            )}
           />
           <Button
             variant="contained"
             type="submit"
-            onClick={handleRegister}
             fullWidth
             sx={{ mt: 1 }}
           >
             Sign Up
           </Button>
-        </Box>
+        </form>
         <p>Already have account!</p>
         <Link to="/login">Back to sign in</Link>
       </Card>
