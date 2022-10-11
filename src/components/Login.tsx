@@ -6,54 +6,50 @@ import Card from '@mui/material/Card';
 import TextField from '@mui/material/TextField';
 
 const Login = () => {
-  const handleUsername = () => {
+  const handleUsername = () => {};
 
-  }
+  const handlePassword = () => {};
 
-  const handlePassword = () => {
-
-  }
-
-  const handleLogin = () => {
-
-  }
+  const handleLogin = () => {};
 
   return (
     <div className="Login">
-      <Card 
+      <Card
         variant="outlined"
         sx={{ width: '400px', mx: 'auto', my: 4, p: 2 }}
       >
         <h1>Sign In</h1>
-        <Box 
-          component="form" 
+        <Box
+          component="form"
           autoComplete="off"
         >
-          <TextField 
-            id="username" 
+          <TextField
+            id="username"
             label="User Name"
-            variant="outlined" 
-            size="small" 
+            variant="outlined"
+            size="small"
             margin="dense"
             onChange={handleUsername}
-            fullWidth required
+            fullWidth
+            required
           />
-          <TextField 
-            id="password" 
-            label="Password" 
-            variant="outlined" 
+          <TextField
+            id="password"
+            label="Password"
+            variant="outlined"
             size="small"
             margin="dense"
             type="password"
-            onChange={handlePassword} 
-            fullWidth required
+            onChange={handlePassword}
+            fullWidth
+            required
           />
-          <Button 
-              variant="contained"
-              type="submit" 
-              onClick={handleLogin}
-              fullWidth
-              sx={{ mt: 1 }}
+          <Button
+            variant="contained"
+            type="submit"
+            onClick={handleLogin}
+            fullWidth
+            sx={{ mt: 1 }}
           >
             Sign In
           </Button>
@@ -62,7 +58,7 @@ const Login = () => {
         <Link to="/register">Please sign up</Link>
       </Card>
     </div>
-  )
-}
+  );
+};
 
 export default Login;

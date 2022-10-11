@@ -9,15 +9,15 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 interface ITaskItemType {
-  task: ITaskType
+  task: ITaskType;
 }
 
-const TaskItem:FC<ITaskItemType> = ({ task }) => {
+const TaskItem: FC<ITaskItemType> = ({ task }) => {
   const dispatch: any = useDispatch();
 
   const handleTaskRemove = () => {
     dispatch(removeTask({ id: task.id }));
-  }
+  };
 
   return (
     <>
@@ -29,14 +29,17 @@ const TaskItem:FC<ITaskItemType> = ({ task }) => {
         <TableCell>
           <div style={{ display: 'flex' }}>
             <EditTask task={task} />
-            <IconButton aria-label="delete" onClick={handleTaskRemove}>
+            <IconButton
+              aria-label="delete"
+              onClick={handleTaskRemove}
+            >
               <DeleteIcon />
             </IconButton>
           </div>
         </TableCell>
       </TableRow>
     </>
-  )
-}
+  );
+};
 
 export default TaskItem;

@@ -16,63 +16,69 @@ import EditIcon from '@mui/icons-material/Edit';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
 interface IEditedTaskType {
-  task: ITaskType
+  task: ITaskType;
 }
 
-const EditTask:FC<IEditedTaskType> = ({ task }) => {
+const EditTask: FC<IEditedTaskType> = ({ task }) => {
   const dispatch: AppDispatch = useDispatch();
 
-  const defaultValues: ITaskInput = useMemo(() => (
-    {
+  const defaultValues: ITaskInput = useMemo(
+    () => ({
       taskName: task.name,
       taskDescription: task.description,
-      taskDeadline: task.deadline
-    }
-  ), [task]);
+      taskDeadline: task.deadline,
+    }),
+    [task]
+  );
 
-  const { control, reset, handleSubmit, formState: { isSubmitSuccessful } } = useForm<ITaskInput>({
-    defaultValues
+  const {
+    control,
+    reset,
+    handleSubmit,
+    formState: { isSubmitSuccessful },
+  } = useForm<ITaskInput>({
+    defaultValues,
   });
 
   const [open, setOpen] = useState(false);
 
   const handleOpenDialog = () => {
     setOpen(true);
-  }
+  };
 
   const handleCloseDialog = () => {
     setOpen(false);
-  }
+  };
 
   const handleSubmitEditedTask: SubmitHandler<ITaskInput> = (data) => {
     console.log(data);
-    const editedTask:ITaskType = {
+    const editedTask: ITaskType = {
       id: task.id,
       name: data.taskName,
       description: data.taskDescription,
-      deadline: formatDate(data.taskDeadline)
-    }
+      deadline: formatDate(data.taskDeadline),
+    };
     dispatch(editTask(editedTask));
     handleCloseDialog();
-  }
+  };
 
   useEffect(() => {
     if (isSubmitSuccessful) {
       reset(defaultValues);
     }
-  }, [defaultValues, isSubmitSuccessful, reset])
+  }, [defaultValues, isSubmitSuccessful, reset]);
 
   return (
     <div>
-      <IconButton 
+      <IconButton
         aria-label="edit"
         onClick={handleOpenDialog}
       >
         <EditIcon />
       </IconButton>
 
-      <Dialog 
-        open={open} 
+      <Dialog
+        open={open}
         onClose={handleCloseDialog}
       >
         <form onSubmit={handleSubmit(handleSubmitEditedTask)}>
@@ -85,19 +91,19 @@ const EditTask:FC<IEditedTaskType> = ({ task }) => {
                 required: true,
                 minLength: {
                   value: 6,
-                  message: 'Task name too short'
+                  message: 'Task name too short',
                 },
                 maxLength: {
                   value: 50,
-                  message: 'Task name too long'
-                }
+                  message: 'Task name too long',
+                },
               }}
               render={({ field, fieldState: { error } }) => (
-                <TextField 
+                <TextField
                   {...field}
                   label="Task Name"
-                  variant="outlined" 
-                  size="small" 
+                  variant="outlined"
+                  size="small"
                   margin="dense"
                   fullWidth
                   error={error ? true : false}
@@ -112,14 +118,14 @@ const EditTask:FC<IEditedTaskType> = ({ task }) => {
                 required: true,
                 minLength: {
                   value: 10,
-                  message: 'Task description too short'
-                }
+                  message: 'Task description too short',
+                },
               }}
               render={({ field, fieldState: { error } }) => (
-                <TextField 
+                <TextField
                   {...field}
-                  label="Task Description" 
-                  variant="outlined" 
+                  label="Task Description"
+                  variant="outlined"
                   size="small"
                   margin="dense"
                   fullWidth
@@ -132,38 +138,38 @@ const EditTask:FC<IEditedTaskType> = ({ task }) => {
               name="taskDeadline"
               control={control}
               rules={{
-                required: true
+                required: true,
               }}
               render={({ field, fieldState: { error } }) => (
                 <DesktopDatePicker
                   {...field}
                   label="Deadline"
                   inputFormat="MM/DD/YYYY"
-                  renderInput={(params) => 
-                    <TextField 
-                      size="small" 
+                  renderInput={(params) => (
+                    <TextField
+                      size="small"
                       margin="dense"
                       fullWidth
                       error={error ? true : false}
-                      helperText={error?.message}  
-                      {...params} 
+                      helperText={error?.message}
+                      {...params}
                     />
-                  }
+                  )}
                 />
               )}
             />
           </DialogContent>
           <DialogActions>
-            <Button 
+            <Button
               variant="contained"
-              type="reset" 
+              type="reset"
               onClick={handleCloseDialog}
             >
               Cancel
             </Button>
-            <Button 
+            <Button
               variant="contained"
-              type="submit" 
+              type="submit"
             >
               Save
             </Button>

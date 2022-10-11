@@ -7,10 +7,13 @@ import dayjs from 'dayjs';
 const Home = () => {
   return (
     <div className="Home">
-      <Title text="Todo App" day={formatDate(dayjs())} />
+      <Title
+        text="Todo App"
+        day={formatDate(dayjs())}
+      />
       <ToDoList />
     </div>
-  )
-}
+  );
+};
 
 export default Home;

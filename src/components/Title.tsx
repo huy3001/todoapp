@@ -8,7 +8,7 @@ const Title = (props: any) => {
         <small>{props.day}</small>
       </h3>
     </div>
-  )
-}
+  );
+};
 
 export default Title;

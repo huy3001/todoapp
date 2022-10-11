@@ -6,68 +6,63 @@ import Card from '@mui/material/Card';
 import TextField from '@mui/material/TextField';
 
 const Register = () => {
-  const handleUsername = () => {
+  const handleUsername = () => {};
 
-  }
+  const handleEmail = () => {};
 
-  const handleEmail = () => {
+  const handlePassword = () => {};
 
-  }
-
-  const handlePassword = () => {
-
-  }
-
-  const handleRegister = () => {
-
-  }
+  const handleRegister = () => {};
 
   return (
     <div className="Register">
-      <Card 
+      <Card
         variant="outlined"
         sx={{ width: '400px', mx: 'auto', my: 4, p: 2 }}
       >
         <h1>Sign Up</h1>
-        <Box 
-          component="form" 
+        <Box
+          component="form"
           autoComplete="off"
         >
-          <TextField 
-            id="username" 
+          <TextField
+            id="username"
             label="User Name"
-            variant="outlined" 
-            size="small" 
+            variant="outlined"
+            size="small"
             margin="dense"
             onChange={handleUsername}
-            fullWidth required
+            fullWidth
+            required
           />
-          <TextField 
-            id="email" 
-            label="Email" 
-            variant="outlined" 
+          <TextField
+            id="email"
+            label="Email"
+            variant="outlined"
             size="small"
             margin="dense"
             type="email"
-            onChange={handleEmail} 
-            fullWidth required
+            onChange={handleEmail}
+            fullWidth
+            required
           />
-          <TextField 
-            id="password" 
-            label="Password" 
-            variant="outlined" 
+          <TextField
+            id="password"
+            label="Password"
+            variant="outlined"
             size="small"
             margin="dense"
             type="password"
-            onChange={handlePassword} 
-            fullWidth required
+            onChange={handlePassword}
+            fullWidth
+            required
           />
-          <Button 
-              variant="contained"
-              type="submit" 
-              onClick={handleRegister}
-              fullWidth
-              sx={{ mt: 1 }}
+          <Button
+            variant="contained"
+            type="submit"
+            onClick={handleRegister}
+            fullWidth
+            sx={{ mt: 1 }}
           >
             Sign Up
           </Button>
@@ -76,7 +71,7 @@ const Register = () => {
         <Link to="/login">Back to sign in</Link>
       </Card>
     </div>
-  )
-}
+  );
+};
 
 export default Register;

@@ -13,7 +13,7 @@ const ToDoList = () => {
       <TaskList list={todos} />
       <AddTask />
     </div>
-  )
-}
+  );
+};
 
 export default ToDoList;

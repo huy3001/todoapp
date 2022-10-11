@@ -10,13 +10,13 @@ import TableContainer from '@mui/material/TableContainer';
 import Paper from '@mui/material/Paper';
 
 interface IListType {
-  list: ITaskType[]
+  list: ITaskType[];
 }
 
-const TaskList:FC<IListType> = ({ list }) => {
+const TaskList: FC<IListType> = ({ list }) => {
   return (
-    <div 
-      className="TaskList" 
+    <div
+      className="TaskList"
       style={{ marginBottom: 20 }}
     >
       <TableContainer component={Paper}>
@@ -32,13 +32,16 @@ const TaskList:FC<IListType> = ({ list }) => {
           </TableHead>
           <TableBody>
             {list.map((item: ITaskType) => (
-              <TaskItem task={item} key={item.id} />
+              <TaskItem
+                task={item}
+                key={item.id}
+              />
             ))}
           </TableBody>
         </Table>
       </TableContainer>
     </div>
-  )
-}
+  );
+};
 
 export default TaskList;

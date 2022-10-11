@@ -12,14 +12,27 @@ const App = () => {
     <div className="App">
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Switch>
-          <Redirect from="home" to="/" exact />
-          <Route path="/" component={Home} />
-          <Route path="/login" component={Login} />
-          <Route path="/register" component={Register} />
+          <Redirect
+            from="home"
+            to="/"
+            exact
+          />
+          <Route
+            path="/"
+            component={Home}
+          />
+          <Route
+            path="/login"
+            component={Login}
+          />
+          <Route
+            path="/register"
+            component={Register}
+          />
         </Switch>
       </LocalizationProvider>
     </div>
   );
-}
+};
 
 export default App;

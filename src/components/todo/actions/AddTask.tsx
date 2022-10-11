@@ -20,29 +20,37 @@ const AddTask = () => {
   const dispatch: AppDispatch = useDispatch();
   const todosLength = useSelector(selectTodos).length;
 
-  const defaultValues: ITaskInput = useMemo(() => ({
-    taskName: '',
-    taskDescription: '',
-    taskDeadline: formatDate(dayjs())
-  }), []);
+  const defaultValues: ITaskInput = useMemo(
+    () => ({
+      taskName: '',
+      taskDescription: '',
+      taskDeadline: formatDate(dayjs()),
+    }),
+    []
+  );
 
-  const { control, reset, handleSubmit, formState: { isSubmitSuccessful } } = useForm<ITaskInput>({
-    defaultValues
+  const {
+    control,
+    reset,
+    handleSubmit,
+    formState: { isSubmitSuccessful },
+  } = useForm<ITaskInput>({
+    defaultValues,
   });
 
   const [open, setOpen] = useState(false);
 
   const handleOpenDialog = () => {
     setOpen(true);
-  }
+  };
 
   const handleCloseDialog = () => {
     setOpen(false);
-  }
+  };
 
   const handleResetTask = () => {
     handleCloseDialog();
-  }
+  };
 
   const handleSubmitTask: SubmitHandler<ITaskInput> = (data) => {
     console.log(data);
@@ -50,31 +58,31 @@ const AddTask = () => {
       id: todosLength + 1,
       name: data.taskName,
       description: data.taskDescription,
-      deadline: data.taskDeadline
-    }
+      deadline: data.taskDeadline,
+    };
     dispatch(addTask(newTask));
     handleResetTask();
-  }
+  };
 
   useEffect(() => {
     if (isSubmitSuccessful) {
       reset(defaultValues);
     }
-  }, [defaultValues, isSubmitSuccessful, reset])
+  }, [defaultValues, isSubmitSuccessful, reset]);
 
   return (
     <div>
-      <Button 
-        variant="outlined" 
-        startIcon={<AddIcon />} 
+      <Button
+        variant="outlined"
+        startIcon={<AddIcon />}
         onClick={handleOpenDialog}
       >
         Add Task
       </Button>
 
       {open && (
-        <Dialog 
-          open={open} 
+        <Dialog
+          open={open}
           onClose={handleCloseDialog}
         >
           <form onSubmit={handleSubmit(handleSubmitTask)}>
@@ -87,19 +95,19 @@ const AddTask = () => {
                   required: true,
                   minLength: {
                     value: 6,
-                    message: 'Task name too short'
+                    message: 'Task name too short',
                   },
                   maxLength: {
                     value: 50,
-                    message: 'Task name too long'
-                  }
+                    message: 'Task name too long',
+                  },
                 }}
                 render={({ field, fieldState: { error } }) => (
-                  <TextField 
+                  <TextField
                     {...field}
                     label="Task Name"
-                    variant="outlined" 
-                    size="small" 
+                    variant="outlined"
+                    size="small"
                     margin="dense"
                     fullWidth
                     error={error ? true : false}
@@ -114,17 +122,17 @@ const AddTask = () => {
                   required: true,
                   minLength: {
                     value: 10,
-                    message: 'Task description too short'
-                  }
+                    message: 'Task description too short',
+                  },
                 }}
                 render={({ field, fieldState: { error } }) => (
-                  <TextField 
+                  <TextField
                     {...field}
-                    label="Task Description" 
-                    variant="outlined" 
+                    label="Task Description"
+                    variant="outlined"
                     size="small"
                     margin="dense"
-                    fullWidth 
+                    fullWidth
                     error={error ? true : false}
                     helperText={error?.message}
                   />
@@ -134,38 +142,38 @@ const AddTask = () => {
                 name="taskDeadline"
                 control={control}
                 rules={{
-                  required: true
+                  required: true,
                 }}
                 render={({ field, fieldState: { error } }) => (
                   <DesktopDatePicker
                     {...field}
                     label="Deadline"
                     inputFormat="MM/DD/YYYY"
-                    renderInput={(params) => 
-                      <TextField 
-                        size="small" 
+                    renderInput={(params) => (
+                      <TextField
+                        size="small"
                         margin="dense"
                         fullWidth
                         error={error ? true : false}
-                        helperText={error?.message} 
-                        {...params} 
+                        helperText={error?.message}
+                        {...params}
                       />
-                    }
+                    )}
                   />
                 )}
               />
             </DialogContent>
             <DialogActions>
-              <Button 
+              <Button
                 variant="contained"
-                type="reset" 
+                type="reset"
                 onClick={handleResetTask}
               >
                 Cancel
               </Button>
-              <Button 
+              <Button
                 variant="contained"
-                type="submit" 
+                type="submit"
               >
                 Save
               </Button>
