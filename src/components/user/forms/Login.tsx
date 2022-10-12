@@ -1,12 +1,17 @@
 import React, { useEffect, useMemo } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { ILoginInput } from 'features/user/types';
+import { AppDispatch } from 'store/store';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import TextField from '@mui/material/TextField';
+import { login } from 'features/user/reducers/auth';
 
 const Login = () => {
+  const dispatch: AppDispatch = useDispatch();
+
   const defaultValues: ILoginInput = useMemo(
     () => ({
       user: '',
@@ -26,6 +31,12 @@ const Login = () => {
 
   const handleLogin: SubmitHandler<ILoginInput> = (data) => {
     console.log(data);
+    dispatch(login(data))
+      .unwrap()
+      .then(() => {
+        // redirect('/');
+        window.location.reload();
+      });
   };
 
   useEffect(() => {

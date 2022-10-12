@@ -1,6 +1,6 @@
 import axiosClient from 'api/axiosClient';
 
-const axiosServices = {
+const authServices = {
   register(data: any) {
     const url = 'register';
     return axiosClient.post(url, data);
@@ -16,7 +16,7 @@ const axiosServices = {
   },
   logout() {
     localStorage.removeItem('user');
-  }
-}
+  },
+};
 
-export default axiosServices;
+export default authServices;
