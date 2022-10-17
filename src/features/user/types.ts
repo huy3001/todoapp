@@ -1,10 +1,10 @@
 export interface ILoginInput {
-  user: string;
+  email: string;
   password: string;
 }
 
 export interface IRegisterInput {
-  user: string;
+  name: string;
   email: string;
   password: string;
 }

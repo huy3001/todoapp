@@ -24,7 +24,7 @@ const LoginPage = () => {
   return (
     <div className="LoginPage">
       <Login />
-      {message && <Alert severity="error">{message}</Alert>}
+      {/* {message && <Alert severity="error">{message}</Alert>} */}
     </div>
   );
 };

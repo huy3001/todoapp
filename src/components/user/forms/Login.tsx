@@ -14,7 +14,7 @@ const Login = () => {
 
   const defaultValues: ILoginInput = useMemo(
     () => ({
-      user: '',
+      email: '',
       password: '',
     }),
     []
@@ -34,7 +34,6 @@ const Login = () => {
     dispatch(login(data))
       .unwrap()
       .then(() => {
-        // redirect('/');
         window.location.reload();
       });
   };
@@ -54,19 +53,21 @@ const Login = () => {
         <h1>Sign In</h1>
         <form onSubmit={handleSubmit(handleLogin)}>
           <Controller
-            name="user"
+            name="email"
             control={control}
             rules={{
               required: true,
               minLength: {
                 value: 8,
-                message: 'User name too short',
+                message: 'Email too short',
               },
+              pattern: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
             }}
             render={({ field, fieldState: { error } }) => (
               <TextField
                 {...field}
-                label="User Name"
+                label="Email"
+                type="email"
                 variant="outlined"
                 size="small"
                 margin="dense"
@@ -89,13 +90,14 @@ const Login = () => {
                 value: 20,
                 message: 'Password too long',
               },
-              pattern:
-                /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
+              // pattern:
+              //   /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
             }}
             render={({ field, fieldState: { error } }) => (
               <TextField
                 {...field}
                 label="Password"
+                type="password"
                 variant="outlined"
                 size="small"
                 margin="dense"

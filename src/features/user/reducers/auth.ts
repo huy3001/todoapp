@@ -3,7 +3,7 @@ import { AxiosResponse } from 'axios';
 import { setMessage } from 'features/user/reducers/message';
 import authServices from 'api/authServices';
 
-const user = JSON.parse(localStorage.getItem('user') || '');
+const user = JSON.parse(localStorage.getItem('user') as string);
 
 export const register: any = createAsyncThunk(
   'users/register',

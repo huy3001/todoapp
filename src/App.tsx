@@ -9,21 +9,21 @@ import RegisterPage from 'components/user/pages/RegisterPage';
 
 const App = () => {
   return (
-    <div className="App">
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <div className="App">
         <Switch>
-          <Route path="/">
-            <Home />
-          </Route>
           <Route path="/login">
             <LoginPage />
           </Route>
           <Route path="/register">
             <RegisterPage />
           </Route>
+          <Route path="/">
+            <Home />
+          </Route>
         </Switch>
-      </LocalizationProvider>
-    </div>
+      </div>
+    </LocalizationProvider>
   );
 };
 

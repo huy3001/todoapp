@@ -9,7 +9,7 @@ import TextField from '@mui/material/TextField';
 const Register = () => {
   const defaultValues: IRegisterInput = useMemo(
     () => ({
-      user: '',
+      name: '',
       email: '',
       password: '',
     }),
@@ -44,7 +44,7 @@ const Register = () => {
         <h1>Sign Up</h1>
         <form onSubmit={handleSubmit(handleRegister)}>
           <Controller
-            name="user"
+            name="name"
             control={control}
             rules={{
               required: true,
@@ -81,6 +81,7 @@ const Register = () => {
               <TextField
                 {...field}
                 label="Email"
+                type="email"
                 variant="outlined"
                 size="small"
                 margin="dense"
@@ -103,13 +104,14 @@ const Register = () => {
                 value: 20,
                 message: 'Password too long',
               },
-              pattern:
-                /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
+              // pattern:
+              //   /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
             }}
             render={({ field, fieldState: { error } }) => (
               <TextField
                 {...field}
                 label="Password"
+                type="password"
                 variant="outlined"
                 size="small"
                 margin="dense"

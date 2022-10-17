@@ -1,10 +1,10 @@
 import axios from 'axios';
 
 const axiosClient = axios.create({
-  baseURL: 'https://demo-lumen.wp-peterc.vcoder.host/api/',
+  baseURL: 'http://demo-lumen.dev.local/api/',
   headers: {
-    'Content-type': 'application/json'
-  }
-})
+    'Content-type': 'application/json',
+  },
+});
 
 export default axiosClient;
