@@ -8,8 +8,8 @@ import Login from 'components/user/forms/Login';
 import Alert from '@mui/material/Alert';
 
 const LoginPage = () => {
-  const isLoggedIn = useSelector(selectIsLoggedIn);
-  const message = useSelector(selectMessage);
+  const loggedInStatus = useSelector(selectIsLoggedIn);
+  // const message = useSelector(selectMessage);
 
   const dispatch: AppDispatch = useDispatch();
 
@@ -17,7 +17,7 @@ const LoginPage = () => {
     dispatch(clearMessage);
   }, [dispatch]);
 
-  if (isLoggedIn) {
+  if (loggedInStatus.isLoggedIn) {
     <Redirect to="/" />;
   }
 

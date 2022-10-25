@@ -39,7 +39,12 @@ const Register = () => {
     <div className="Register">
       <Card
         variant="outlined"
-        sx={{ width: '400px', mx: 'auto', my: 4, p: 2 }}
+        sx={{
+          width: '400px',
+          mx: 'auto',
+          my: 4,
+          p: 2,
+        }}
       >
         <h1>Sign Up</h1>
         <form onSubmit={handleSubmit(handleRegister)}>
@@ -75,7 +80,7 @@ const Register = () => {
                 value: 8,
                 message: 'Email too short',
               },
-              pattern: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+              // pattern: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
             }}
             render={({ field, fieldState: { error } }) => (
               <TextField

@@ -6,7 +6,7 @@ import authServices from 'api/authServices';
 const user = JSON.parse(localStorage.getItem('user') as string);
 
 export const register: any = createAsyncThunk(
-  'users/register',
+  'register',
   async (data, thunkAPI) => {
     try {
       const response: AxiosResponse = await authServices.register(data);
@@ -25,26 +25,21 @@ export const register: any = createAsyncThunk(
   }
 );
 
-export const login: any = createAsyncThunk(
-  'users/login',
-  async (data, thunkAPI) => {
-    try {
-      const userData = await authServices.login(data);
-      return { user: userData };
-    } catch (error: any) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
-      thunkAPI.dispatch(setMessage(message));
-      return thunkAPI.rejectWithValue(message);
-    }
+export const login: any = createAsyncThunk('login', async (data, thunkAPI) => {
+  try {
+    const userData = await authServices.login(data);
+    return { user: userData };
+  } catch (error: any) {
+    const message =
+      (error.response && error.response.data && error.response.data.message) ||
+      error.message ||
+      error.toString();
+    thunkAPI.dispatch(setMessage(message));
+    return thunkAPI.rejectWithValue(message);
   }
-);
+});
 
-export const logout: any = createAsyncThunk('users/logout', async () => {
+export const logout: any = createAsyncThunk('logout', async () => {
   await authServices.logout();
 });
 
