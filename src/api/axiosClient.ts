@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const axiosClient = axios.create({
-  baseURL: 'http://demo-lumen.dev.local/api/',
+  baseURL: 'https://mockend.com/huy3001/todoapp/',
   headers: {
     'Content-type': 'application/json',
   },

@@ -1,0 +1,33 @@
+{
+  "User": {
+    "name": {
+      "string": {}
+    },
+    "email": {
+      "regexp": "[a-z]{5,10}@[a-z]{5}\\.[a-z]{2,3}"
+    },
+    "password": {
+      "regexp": "#[0-9A-F]{6}"
+    }
+  },
+  "Task": {
+    "name": {
+      "loremWords": {
+        "minLength": 5,
+        "maxLength": 20
+      }
+    },
+    "description": {
+      "loremSentences": {
+        "minLength": 100,
+        "maxLength": 200
+      }
+    },
+    "deadline": {
+      "dateTime": {
+        "min": "2020-01-01T00:00:00Z",
+        "max": "2030-12-31T23:59:59Z"
+      }
+    }
+  }
+}
