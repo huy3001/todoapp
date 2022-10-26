@@ -4,10 +4,27 @@
       "string": {}
     },
     "email": {
-      "regexp": "#[a-z]{5,10}@[a-z]{5}\\.[a-z]{2,3}"
+      "regexp": "[a-z]{5,10}@[a-z]{5}\\.[a-z]{2,3}"
     },
     "password": {
       "regexp": "#[0-9A-F]{6}"
+    }
+  },
+  "Task": {
+    "name": {
+      "loremWords": {
+        "minLength": 5,
+        "maxLength": 20
+      }
+    },
+    "description": {
+      "loremSentences": {
+        "minLength": 100,
+        "maxLength": 200
+      }
+    },
+    "deadline": {
+      "dateTime": {}
     }
   }
 }
