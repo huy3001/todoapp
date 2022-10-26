@@ -7,7 +7,7 @@
       "regexp": "[a-z]{5,10}@[a-z]{5}\\.[a-z]{2,3}"
     },
     "password": {
-      "regexp": "#[0-9A-F]{6}"
+      "regexp": "#[0-9A-F]{8}"
     }
   },
   "Task": {
