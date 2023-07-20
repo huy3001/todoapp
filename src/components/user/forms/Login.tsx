@@ -8,6 +8,7 @@ import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import TextField from '@mui/material/TextField';
 import { login } from 'features/user/reducers/auth';
+import styles from 'components/user/forms/Login.module.scss';
 
 const Login = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -18,7 +19,7 @@ const Login = () => {
       password: '',
     }),
     []
-  );
+  ); 
 
   const {
     control,
@@ -55,7 +56,7 @@ const Login = () => {
           p: 2,
         }}
       >
-        <h1>Sign In</h1>
+        <h1 className={styles.loginHeading}>Sign In</h1>
         <form onSubmit={handleSubmit(handleLogin)}>
           <Controller
             name="email"
@@ -121,7 +122,7 @@ const Login = () => {
             Sign In
           </Button>
         </form>
-        <p>Don't have account yet!</p>
+        <p className={styles.loginText}>Don't have account yet!</p>
         <Link to="/register">Please sign up</Link>
       </Card>
     </div>

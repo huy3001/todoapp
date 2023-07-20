@@ -1,12 +1,22 @@
-const Title = (props: any) => {
+import React, { FC } from 'react';
+import { Dayjs } from 'dayjs';
+
+type TitleProps = {
+  text: string;
+  day?: Dayjs | any;
+};
+
+const Title: FC<TitleProps> = ({ text, day }) => {
   return (
     <div className="TitleWrapper">
-      <h1 className="Title">{props.text}</h1>
-      <h3 className="CurrentDate">
-        <span>Today:</span>
-        &nbsp;
-        <small>{props.day}</small>
-      </h3>
+      {text && <h1 className="Title">{text}</h1>}
+      {day && (
+        <h3 className="CurrentDate">
+          <span>Today:</span>
+          &nbsp;
+          <small>{day}</small>
+        </h3>
+      )}
     </div>
   );
 };
