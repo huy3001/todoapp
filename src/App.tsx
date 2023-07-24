@@ -8,6 +8,9 @@ import 'App.css';
 import Home from 'components/Home';
 // import LoginPage from 'components/user/pages/LoginPage';
 // import RegisterPage from 'components/user/pages/RegisterPage';
+import AddTutorial from 'components/tutorial/actions/AddTutorial';
+import Tutorial from 'components/tutorial/list/Tutorial';
+import TutorialList from 'components/tutorial/list/TutorialList';
 
 const App = () => {
   // const logInStatus = useSelector(selectAuth);
@@ -23,13 +26,20 @@ const App = () => {
           <Route path="/register">
             <RegisterPage />
           </Route> */}
-          <Route path="/">
-            <Home />
+          <Route exact path="/">
+            {/* <Home /> */}
+            <TutorialList />
+          </Route>
+          <Route exact path="/add">
+            <AddTutorial />
+          </Route>
+          <Route path="/tutorials/:id">
+            <Tutorial />
           </Route>
         </Switch>
       </div>
     </LocalizationProvider>
   );
-}; 
+};
 
 export default App;
