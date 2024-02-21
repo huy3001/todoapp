@@ -1,12 +1,11 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, memo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { ITaskType, ITaskInput } from 'features/todo/types';
 import { selectTodos } from 'features/todo/selectors';
 import { addTask } from 'features/todo/reducer';
 import { AppDispatch } from 'store/store';
-import formatDate from 'components/FormatDate';
-import dayjs from 'dayjs';
+import formatDate from 'helper/FormatDate';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -24,7 +23,7 @@ const AddTask = () => {
     () => ({
       taskName: '',
       taskDescription: '',
-      taskDeadline: formatDate(dayjs()),
+      taskDeadline: formatDate(new Date()),
     }),
     []
   );
@@ -53,12 +52,11 @@ const AddTask = () => {
   };
 
   const handleSubmitTask: SubmitHandler<ITaskInput> = (data) => {
-    console.log(data);
     const newTask: ITaskType = {
-      id: todosLength + 1,
+      id: `${todosLength + 1}`,
       name: data.taskName,
       description: data.taskDescription,
-      deadline: data.taskDeadline,
+      deadline: formatDate(data.taskDeadline),
     };
     dispatch(addTask(newTask));
     handleResetTask();
@@ -185,4 +183,4 @@ const AddTask = () => {
   );
 };
 
-export default AddTask;
+export default memo(AddTask);

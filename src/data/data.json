@@ -1,0 +1,34 @@
+{
+  "todos": [
+    {
+      "id": "1",
+      "name": "Homepage",
+      "description": "Build homepage",
+      "deadline": "02/21/2024"
+    },
+    {
+      "id": "2",
+      "name": "Catalog",
+      "description": "Update design for catalog page",
+      "deadline": "02/22/2024"
+    },
+    {
+      "id": "3",
+      "name": "Product",
+      "description": "Fix layout for product page",
+      "deadline": "02/23/2024"
+    },
+    {
+      "id": "4",
+      "name": "About us",
+      "description": "Create about page",
+      "deadline": "02/24/2024"
+    },
+    {
+      "id": "5",
+      "name": "Contact us",
+      "description": "Update contact page",
+      "deadline": "02/25/2024"
+    }
+  ]
+}

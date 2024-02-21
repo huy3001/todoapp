@@ -5,12 +5,13 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import 'App.css';
-import Home from 'components/Home';
+// import Home from 'components/Home';
 // import LoginPage from 'components/user/pages/LoginPage';
 // import RegisterPage from 'components/user/pages/RegisterPage';
-import AddTutorial from 'components/tutorial/actions/AddTutorial';
-import Tutorial from 'components/tutorial/list/Tutorial';
-import TutorialList from 'components/tutorial/list/TutorialList';
+// import AddTutorial from 'components/tutorial/actions/AddTutorial';
+// import Tutorial from 'components/tutorial/list/Tutorial';
+// import TutorialList from 'components/tutorial/list/TutorialList';
+import ToDoList from 'components/ToDoList';
 
 const App = () => {
   // const logInStatus = useSelector(selectAuth);
@@ -28,14 +29,15 @@ const App = () => {
           </Route> */}
           <Route exact path="/">
             {/* <Home /> */}
-            <TutorialList />
+            {/* <TutorialList /> */}
+            <ToDoList />
           </Route>
-          <Route exact path="/add">
+          {/* <Route exact path="/add">
             <AddTutorial />
           </Route>
           <Route path="/tutorials/:id">
             <Tutorial />
-          </Route>
+          </Route> */}
         </Switch>
       </div>
     </LocalizationProvider>

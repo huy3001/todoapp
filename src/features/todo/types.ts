@@ -1,14 +1,14 @@
-import { Dayjs } from 'dayjs';
+import { ConfigType } from 'dayjs';
 
 export interface ITaskType {
-  id: number,
-  name: string,
-  description: string
-  deadline?: Dayjs | any
+  id: string;
+  name: string;
+  description: string;
+  deadline?: ConfigType;
 }
 
 export interface ITaskInput {
-  taskName: string,
-  taskDescription: string,
-  taskDeadline?: Dayjs | any
+  taskName: string;
+  taskDescription: string;
+  taskDeadline?: ConfigType;
 }

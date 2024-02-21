@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, memo } from 'react';
 import { useDispatch } from 'react-redux';
 import { ITaskType } from 'features/todo/types';
 import { removeTask } from 'features/todo/reducer';
@@ -7,6 +7,7 @@ import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
+import formatDate from 'helper/FormatDate';
 
 interface ITaskItemType {
   task: ITaskType;
@@ -25,7 +26,7 @@ const TaskItem: FC<ITaskItemType> = ({ task }) => {
         <TableCell>{task.id}</TableCell>
         <TableCell>{task.name}</TableCell>
         <TableCell>{task.description}</TableCell>
-        <TableCell>{task.deadline}</TableCell>
+        <TableCell>{formatDate(task.deadline)}</TableCell>
         <TableCell>
           <div style={{ display: 'flex' }}>
             <EditTask task={task} />
@@ -42,4 +43,4 @@ const TaskItem: FC<ITaskItemType> = ({ task }) => {
   );
 };
 
-export default TaskItem;
+export default memo(TaskItem);

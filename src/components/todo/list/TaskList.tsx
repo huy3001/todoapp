@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, memo } from 'react';
 import TaskItem from 'components/todo/list/TaskItem';
 import { ITaskType } from 'features/todo/types';
 import Table from '@mui/material/Table';
@@ -44,4 +44,4 @@ const TaskList: FC<IListType> = ({ list }) => {
   );
 };
 
-export default TaskList;
+export default memo(TaskList);

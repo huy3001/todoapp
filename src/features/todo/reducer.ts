@@ -1,35 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ITaskType } from 'features/todo/types';
-import formatDate from 'components/FormatDate';
+import axiosClient from 'api/axiosClient';
 import findIndex from 'lodash/findIndex';
-import dayjs from 'dayjs';
+import data from 'data/data.json';
 
-let defaultState:ITaskType[] = [
-  {
-    id: 1,
-    name: 'Homepage',
-    description: 'Build homepage',
-    deadline: formatDate(dayjs())
-  },
-  {
-    id: 2,
-    name: 'Catalog',
-    description: 'Update design for catalog page',
-    deadline: formatDate(dayjs())
-  },
-  {
-    id: 3,
-    name: 'Product',
-    description: 'Fix layout for product page',
-    deadline: formatDate(dayjs())
-  },
-];
+let defaultState = data.todos;
 
 const clearLocalStorage = (item: string) => {
   setTimeout(() => {
     localStorage.removeItem(item);
   }, 500);
-}
+};
 
 if (localStorage.hasOwnProperty('newList')) {
   const newList: any = localStorage.getItem('newList');
@@ -51,28 +32,36 @@ if (localStorage.hasOwnProperty('updatedList')) {
 
 const todosSlice = createSlice({
   name: 'todos',
-  initialState: defaultState,
+  initialState: defaultState as ITaskType[],
   reducers: {
     addTask: (state, action: PayloadAction<ITaskType>) => {
       const newState = [...state, action.payload];
       localStorage.setItem('newList', JSON.stringify(newState));
+      axiosClient.post('todos', action.payload);
       return newState;
     },
 
     editTask: (state, action: PayloadAction<ITaskType>) => {
-      const editedIndex = findIndex([...state], (item: any) => item.id === action.payload.id);
+      const editedIndex = findIndex(
+        [...state],
+        (item: any) => item.id === action.payload.id
+      );
       const editedState = [...state];
       editedState.splice(editedIndex, 1, action.payload);
       localStorage.setItem('editedList', JSON.stringify(editedState));
+      axiosClient.put(`todos/${action.payload.id}`, action.payload);
       return editedState;
     },
 
-    removeTask: (state, action: PayloadAction<{ id: number }>) => {
-      const updatedState = [...state].filter((item: any) => item.id !== action.payload.id);
+    removeTask: (state, action: PayloadAction<{ id: string }>) => {
+      const updatedState = [...state].filter(
+        (item: any) => item.id !== action.payload.id
+      );
       localStorage.setItem('updatedList', JSON.stringify(updatedState));
+      axiosClient.delete(`todos/${action.payload.id}`);
       return updatedState;
-    }
-  }
+    },
+  },
 });
 
 export const { addTask, editTask, removeTask } = todosSlice.actions;

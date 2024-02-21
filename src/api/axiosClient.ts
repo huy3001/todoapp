@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const axiosClient = axios.create({
-  baseURL: 'https://mockend.com/huy3001/todoapp/',
+  baseURL: 'http://localhost:3000/',
   headers: {
     'Content-type': 'application/json',
   },

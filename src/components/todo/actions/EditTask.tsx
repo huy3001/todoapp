@@ -1,10 +1,10 @@
-import React, { FC, useState, useEffect, useMemo } from 'react';
+import React, { FC, useState, useEffect, useMemo, memo } from 'react';
 import { useDispatch } from 'react-redux';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { ITaskType, ITaskInput } from 'features/todo/types';
 import { editTask } from 'features/todo/reducer';
 import { AppDispatch } from 'store/store';
-import formatDate from 'components/FormatDate';
+import formatDate from 'helper/FormatDate';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -51,7 +51,6 @@ const EditTask: FC<IEditedTaskType> = ({ task }) => {
   };
 
   const handleSubmitEditedTask: SubmitHandler<ITaskInput> = (data) => {
-    console.log(data);
     const editedTask: ITaskType = {
       id: task.id,
       name: data.taskName,
@@ -182,4 +181,4 @@ const EditTask: FC<IEditedTaskType> = ({ task }) => {
   );
 };
 
-export default EditTask;
+export default memo(EditTask);
