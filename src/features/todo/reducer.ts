@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ITaskType } from 'features/todo/types';
+import { TTaskItem } from 'AppModels';
 import axiosClient from 'api/axiosClient';
 import findIndex from 'lodash/findIndex';
 import data from 'data/data.json';
@@ -32,16 +32,16 @@ if (localStorage.hasOwnProperty('updatedList')) {
 
 const todosSlice = createSlice({
   name: 'todos',
-  initialState: defaultState as ITaskType[],
+  initialState: defaultState as TTaskItem[],
   reducers: {
-    addTask: (state, action: PayloadAction<ITaskType>) => {
+    addTask: (state, action: PayloadAction<TTaskItem>) => {
       const newState = [...state, action.payload];
       localStorage.setItem('newList', JSON.stringify(newState));
       axiosClient.post('todos', action.payload);
       return newState;
     },
 
-    editTask: (state, action: PayloadAction<ITaskType>) => {
+    editTask: (state, action: PayloadAction<TTaskItem>) => {
       const editedIndex = findIndex(
         [...state],
         (item: any) => item.id === action.payload.id

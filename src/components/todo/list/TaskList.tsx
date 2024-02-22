@@ -1,6 +1,6 @@
 import React, { FC, memo } from 'react';
 import TaskItem from 'components/todo/list/TaskItem';
-import { ITaskType } from 'features/todo/types';
+import { TTaskItem } from 'AppModels';
 import Table from '@mui/material/Table';
 import TableHead from '@mui/material/TableHead';
 import TableBody from '@mui/material/TableBody';
@@ -10,7 +10,7 @@ import TableContainer from '@mui/material/TableContainer';
 import Paper from '@mui/material/Paper';
 
 interface IListType {
-  list: ITaskType[];
+  list: TTaskItem[];
 }
 
 const TaskList: FC<IListType> = ({ list }) => {
@@ -31,7 +31,7 @@ const TaskList: FC<IListType> = ({ list }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {list.map((item: ITaskType) => (
+            {list.map((item: TTaskItem) => (
               <TaskItem
                 task={item}
                 key={item.id}

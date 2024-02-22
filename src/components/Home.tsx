@@ -1,15 +1,14 @@
 import React from 'react';
 import Title from 'components/Title';
 import ToDoList from 'components/ToDoList';
-import formatDate from 'helper/FormatDate';
-import dayjs from 'dayjs';
+import formatDate from 'helper/formatDate';
 
 const Home = () => {
   return (
     <div className="Home">
       <Title
         text="Todo App"
-        day={formatDate(dayjs())}
+        day={formatDate(new Date())}
       />
       <ToDoList />
     </div>

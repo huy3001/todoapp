@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useMemo, memo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
-import { ITaskType, ITaskInput } from 'features/todo/types';
+import { TTaskItem, TTaskInput } from 'AppModels';
 import { selectTodos } from 'features/todo/selectors';
 import { addTask } from 'features/todo/reducer';
 import { AppDispatch } from 'store/store';
-import formatDate from 'helper/FormatDate';
+import formatDate from 'helper/formatDate';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -19,7 +19,7 @@ const AddTask = () => {
   const dispatch: AppDispatch = useDispatch();
   const todosLength = useSelector(selectTodos).length;
 
-  const defaultValues: ITaskInput = useMemo(
+  const defaultValues: TTaskInput = useMemo(
     () => ({
       taskName: '',
       taskDescription: '',
@@ -33,7 +33,7 @@ const AddTask = () => {
     reset,
     handleSubmit,
     formState: { isSubmitSuccessful },
-  } = useForm<ITaskInput>({
+  } = useForm<TTaskInput>({
     defaultValues,
   });
 
@@ -51,8 +51,8 @@ const AddTask = () => {
     handleCloseDialog();
   };
 
-  const handleSubmitTask: SubmitHandler<ITaskInput> = (data) => {
-    const newTask: ITaskType = {
+  const handleSubmitTask: SubmitHandler<TTaskInput> = (data) => {
+    const newTask: TTaskItem = {
       id: `${todosLength + 1}`,
       name: data.taskName,
       description: data.taskDescription,

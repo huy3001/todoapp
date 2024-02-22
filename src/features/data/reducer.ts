@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { ITaskType } from 'features/todo/types';
-import { TDataState } from 'features/data/types';
+import { TDataState, TTaskItem } from 'AppModels';
 import data from 'data/data.json';
 
 const defaultState: TDataState = {
@@ -24,7 +23,7 @@ const dataSlice = createSlice({
     builder
       .addCase(
         fetchData.fulfilled,
-        (state, action: PayloadAction<ITaskType[]>) => {
+        (state, action: PayloadAction<TTaskItem[]>) => {
           state.todos = action.payload;
           state.fetchStatus = 'success';
         }

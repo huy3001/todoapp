@@ -1,13 +1,13 @@
 import React, { useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
-import { IRegisterInput } from 'features/user/types';
+import { TRegisterInput } from 'AppModels';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import TextField from '@mui/material/TextField';
 
 const Register = () => {
-  const defaultValues: IRegisterInput = useMemo(
+  const defaultValues: TRegisterInput = useMemo(
     () => ({
       name: '',
       email: '',
@@ -21,11 +21,11 @@ const Register = () => {
     reset,
     handleSubmit,
     formState: { isSubmitSuccessful },
-  } = useForm<IRegisterInput>({
+  } = useForm<TRegisterInput>({
     defaultValues,
   });
 
-  const handleRegister: SubmitHandler<IRegisterInput> = (data) => {
+  const handleRegister: SubmitHandler<TRegisterInput> = (data) => {
     console.log(data);
   };
 

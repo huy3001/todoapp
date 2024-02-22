@@ -2,7 +2,7 @@ import React, { useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
-import { ILoginInput } from 'features/user/types';
+import { TLoginInput } from 'AppModels';
 import { AppDispatch } from 'store/store';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
@@ -13,7 +13,7 @@ import styles from 'components/user/forms/Login.module.scss';
 const Login = () => {
   const dispatch: AppDispatch = useDispatch();
 
-  const defaultValues: ILoginInput = useMemo(
+  const defaultValues: TLoginInput = useMemo(
     () => ({
       email: '',
       password: '',
@@ -26,11 +26,11 @@ const Login = () => {
     reset,
     handleSubmit,
     formState: { isSubmitSuccessful },
-  } = useForm<ILoginInput>({
+  } = useForm<TLoginInput>({
     defaultValues,
   });
 
-  const handleLogin: SubmitHandler<ILoginInput> = (data) => {
+  const handleLogin: SubmitHandler<TLoginInput> = (data) => {
     console.log(data);
     dispatch(login(data))
       .unwrap()
