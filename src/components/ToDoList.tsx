@@ -1,20 +1,22 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { fetchData } from 'features/data/reducer';
-import { selectData } from 'features/data/selectors';
-import { TTaskItem } from 'AppModels';
+// import React, { useEffect } from 'react';
+// import { useSelector, useDispatch } from 'react-redux';
+// import { fetchData } from 'features/data/reducer';
+// import { selectData } from 'features/data/selectors';
+// import { TTaskItem } from 'AppModels';
+import { useGetTodosQuery } from 'features/todo/query';
 import TaskList from 'components/todo/list/TaskList';
 import AddTask from 'components/todo/actions/AddTask';
 import Title from 'components/Title';
-import { AnyAction } from 'redux';
+// import { AnyAction } from 'redux';
 
 const ToDoList = () => {
-  const dispatch = useDispatch();
-  const todos: TTaskItem[] = useSelector(selectData);
+  // const dispatch = useDispatch();
+  // const todos: TTaskItem[] = useSelector(selectData);
+  const { data: todos = [] } = useGetTodosQuery();
 
-  useEffect(() => {
-    dispatch(fetchData('http://localhost:3000/todos') as unknown as AnyAction);
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(fetchData('http://localhost:3000/todos') as unknown as AnyAction);
+  // }, [dispatch]);
 
   return (
     <div>

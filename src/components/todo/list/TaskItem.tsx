@@ -1,23 +1,27 @@
 import React, { FC, memo } from 'react';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 import { TTaskItem } from 'AppModels';
-import { removeTask } from 'features/todo/reducer';
+// import { removeTask } from 'features/todo/reducer';
 import EditTask from 'components/todo/actions/EditTask';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import formatDate from 'helper/formatDate';
+import { useRemoveTodoMutation } from 'features/todo/query';
 
-interface ITaskItemType {
+type TTaskDetail = {
   task: TTaskItem;
-}
+};
 
-const TaskItem: FC<ITaskItemType> = ({ task }) => {
-  const dispatch: any = useDispatch();
+const TaskItem: FC<TTaskDetail> = ({ task }) => {
+  // const dispatch: any = useDispatch();
+
+  const [removeTodo] = useRemoveTodoMutation();
 
   const handleTaskRemove = () => {
-    dispatch(removeTask({ id: task.id }));
+    removeTodo({ id: task.id });
+    // dispatch(removeTask({ id: task.id }));
   };
 
   return (

@@ -3,8 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { TTaskItem, TTaskInput } from 'AppModels';
 import { selectTodos } from 'features/todo/selectors';
-import { addTask } from 'features/todo/reducer';
-import { AppDispatch } from 'store/store';
+// import { addTask } from 'features/todo/reducer';
+// import { AppDispatch } from 'store/store';
 import formatDate from 'helper/formatDate';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -14,10 +14,13 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import AddIcon from '@mui/icons-material/Add';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import { useAddTodoMutation } from 'features/todo/query';
 
 const AddTask = () => {
-  const dispatch: AppDispatch = useDispatch();
+  // const dispatch: AppDispatch = useDispatch();
   const todosLength = useSelector(selectTodos).length;
+
+  const [addTodo] = useAddTodoMutation();
 
   const defaultValues: TTaskInput = useMemo(
     () => ({
@@ -58,7 +61,8 @@ const AddTask = () => {
       description: data.taskDescription,
       deadline: formatDate(data.taskDeadline),
     };
-    dispatch(addTask(newTask));
+    // dispatch(addTask(newTask));
+    addTodo(newTask);
     handleResetTask();
   };
 

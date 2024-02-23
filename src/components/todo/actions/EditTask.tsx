@@ -1,9 +1,9 @@
 import React, { FC, useState, useEffect, useMemo, memo } from 'react';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { TTaskItem, TTaskInput } from 'AppModels';
-import { editTask } from 'features/todo/reducer';
-import { AppDispatch } from 'store/store';
+// import { editTask } from 'features/todo/reducer';
+// import { AppDispatch } from 'store/store';
 import formatDate from 'helper/formatDate';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -14,13 +14,16 @@ import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import { useUpdateTodoMutation } from 'features/todo/query';
 
-interface IEditedTaskType {
+type TEditedTask = {
   task: TTaskItem;
 }
 
-const EditTask: FC<IEditedTaskType> = ({ task }) => {
-  const dispatch: AppDispatch = useDispatch();
+const EditTask: FC<TEditedTask> = ({ task }) => {
+  // const dispatch: AppDispatch = useDispatch();
+
+  const [updateTodo] = useUpdateTodoMutation();
 
   const defaultValues: TTaskInput = useMemo(
     () => ({
@@ -57,7 +60,8 @@ const EditTask: FC<IEditedTaskType> = ({ task }) => {
       description: data.taskDescription,
       deadline: formatDate(data.taskDeadline),
     };
-    dispatch(editTask(editedTask));
+    updateTodo(editedTask);
+    // dispatch(editTask(editedTask));
     handleCloseDialog();
   };
 
